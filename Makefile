@@ -6,7 +6,7 @@
 #    By: mminet <mminet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 23:37:52 by mminet            #+#    #+#              #
-#    Updated: 2024/04/23 01:31:04 by mminet           ###   ########.fr        #
+#    Updated: 2024/04/23 13:10:03 by mminet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,9 @@ SRCS_L =	libft/ft_atoi.c\
 			libft/ft_toupper.c\
 
 SRCS =	minishell.c\
-							get_next_line.c\
+		get_next_line.c\
+		my_env.c\
+		parsing.c\
 
 NAME = minishell
 

@@ -6,34 +6,23 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:19:01 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/23 01:38:41 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/23 12:54:37 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strdel(char *str)
-{
-	if (str)
-	{
-		free(str);
-		str = NULL;
-	}
-	return (NULL);
-}
-
-
-char	*get_line(char *left)
+static char	*get_line(char *left)
 {
 	char	*line;
-	int	i = 0;
-	char c;
+	char	c;
+	int		i;
 
+	i = 0;
 	if (!left[0])
-		return(NULL);
+		return (NULL);
 	while (left[i] && left[i] != '\n')
 		i++;
-	
 	if (left[i])
 	{
 		c = left[i + 1];
@@ -48,8 +37,9 @@ char	*get_line(char *left)
 
 static char	*get_left(int fd, char *left)
 {
-	char *buf;
-	int ret;
+	char	*buf;
+	char	*tmp;
+	int		ret;
 
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	ret = 1;
@@ -57,43 +47,51 @@ static char	*get_left(int fd, char *left)
 		return (NULL);
 	while (!ft_strchr(left, '\n') && ret != 0)
 	{
+		tmp = left;
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
 		{
+			free(left);
 			free(buf);
-			return(NULL);
+			return (NULL);
 		}
 		buf[ret] = '\0';
 		left = ft_strjoin(left, buf);
+		free(tmp);
 	}
 	free(buf);
-	return(left);
+	return (left);
 }
 
 char	*new_left(char *left)
 {
-	int i = 0;
+	int	i;
 
-	while(left[i] && left[i] != '\n')
+	i = 0;
+	while (left[i] && left[i] != '\n')
 		i++;
 	if (!left[i])
 		return (NULL);
-	return (ft_strdup(left + i + 1));
+	left = ft_strdup(left + i + 1);
+	return (left);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*left = NULL;
-	char		*line = NULL;
+	char		*line;
+	char		*tmp;
 
-	if (left == NULL)
-		left = ft_strdup("");
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	if (left == NULL)
+		left = ft_strdup("");
 	left = get_left(fd, left);
+	if (left == NULL)
+		return (NULL);
 	line = get_line(left);
+	tmp = left;
 	left = new_left(left);
-	if (!*line && left)
-		free(left);
+	free(tmp);
 	return (line);
 }
