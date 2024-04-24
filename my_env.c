@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:59:45 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/23 13:00:26 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/24 16:39:28 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ char	*get_var(char *cmp, t_list *env)
 	char	*cpy;
 
 	tmp = env;
-	while (tmp && ft_strncmp(cmp, (char *)tmp->content, ft_strlen(cmp)))
+	cmp = ft_strjoin(cmp, "=");
+	while (tmp && ft_strncmp(cmp, (char *)tmp->content, ft_strlen(cmp)) != 0)
 		tmp = tmp->next;
+	free(cmp);
 	if (!tmp)
 		return (NULL);
 	cpy = (char *)tmp->content;

@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/24 03:34:01 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:05:19 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,15 @@
 t_token		mk_token(char *type, char *value)
 {
 	t_token	token;
-
-	token.type = ft_strdup(type);
-	token.value = ft_strdup(value);
+	
+	if (type != NULL)
+		token.type = ft_strdup(type);
+	else
+		token.type = NULL;
+	if (value != NULL)
+		token.value = ft_strdup(value);
+	else
+		token.value = NULL;
 	return (token);
 }
 
@@ -43,12 +49,13 @@ void	check_quote(char c, t_var *var, int *i)
 
 char	*var_to_get(char *input, int *i, t_list *env)
 {
-	char	str[ft_strlen(input)];
+	char	*str;
 	int		j;
 	char	*tmp;
 
 	*i += 1;
 	j = 0;
+	str = malloc(sizeof(char) * (ft_strlen(input) + 1));
 	while (input[*i] && ft_isalnum(input[*i]))
 	{
 		str[j] = input[*i];
@@ -57,6 +64,7 @@ char	*var_to_get(char *input, int *i, t_list *env)
 	}
 	str[j] = '\0';
 	tmp = ft_strdup(get_var(str, env));
+	free(str);
 	return (tmp);
 }
 
@@ -71,18 +79,22 @@ t_token	mk_word(char *input, int *i, t_list *env)
 	var.str = ft_strdup("");
 	while (input[*i] && (var.quote || var.quote_s || input[*i] != ' '))
 	{	
-		var.tmp = var.str;
 		if ((input[*i] == '"' && var.quote_s == 0) || (input[*i] == 39 && var.quote == 0))
 			check_quote(input[*i], &var, i);
 		else if (input[*i] == '$' && var.quote_s == 0)
 		{
+			var.tmp = var.str;
 			var.var_to_get = var_to_get(input, i, env);
-			var.str = ft_strjoin(var.str, var.var_to_get);
-			free(var.var_to_get);
-			free(var.tmp);
+			if (var.var_to_get)
+			{
+				var.str = ft_strjoin(var.str, var.var_to_get);
+				free(var.var_to_get);
+				free(var.tmp);
+			}
 		}
 		else if (input[*i])
 		{
+			var.tmp = var.str;
 			tmp[0] = input[*i];
 			var.str = ft_strjoin(var.str, tmp);
 			*i += 1;
@@ -121,13 +133,18 @@ t_token		get_token(char *input, int *i, t_list *env)
 		return (mk_word(input, i, env));
 }
 
-static void	del(void *to_del)
+static void	my_del(void *to_del)
 {
 	t_token *token;
 	
 	token = (t_token *)to_del;
-	free(token->type);
-	free(token->value);
+	(void)token;
+	//printf("%s\n", token->type);
+	//printf("|%s|\n", token->value);
+	//if (token->type)
+	//	free(token->type);
+	//if (token->type)
+	//	free(token->value);
 }
 
 void	check_input(char *input, t_list *env)
@@ -138,7 +155,6 @@ void	check_input(char *input, t_list *env)
 
 	i = 0;
 	token_lst = NULL;
-	printf("input = %s\n", input);
 	while (input[i])
 	{
 		while (input[i] == ' ' || input[i] == '	')
@@ -146,10 +162,19 @@ void	check_input(char *input, t_list *env)
 		if (!input[i])
 			break;
 		token = get_token(input, &i, env);
-		printf("token = %s			value = %s\n", token.type, token.value);
+		printf("type = %s		value %s\n", token.type, token.value);
 		ft_lstadd_back(&token_lst, ft_lstnew(&token));
 	}
-	ft_lstclear(&token_lst, del);
+	t_list *tmp;
+	t_token *tokens;
+	tmp = token_lst;
+	while (tmp)
+	{
+		tokens = (t_token *)tmp->content;
+		printf("type = %s		value %s\n", tokens->type, tokens->value);
+		tmp = tmp->next;
+	}
+	ft_lstclear(&token_lst, my_del);
 }
 
 void	get_input(t_list *env)
@@ -159,11 +184,11 @@ void	get_input(t_list *env)
 	(void)env;
 	ft_putstr_fd(">", 1);
 	input = get_next_line(0);
-	while (input)
+	while (input != NULL)
 	{
+		printf("input = %s\n", input);
 		check_input(input, env);
 		free(input);
-		input = NULL;
 		ft_putstr_fd(">", 1);
 		input = get_next_line(0);
 	}

@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:19:01 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/24 01:17:32 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/24 16:45:46 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,29 @@ static char	*get_line(char *left)
 
 static char	*get_left(int fd, char *left)
 {
-	char	*buf;
+	char	buf[BUFFER_SIZE + 1];
 	char	*tmp;
 	int		ret;
 
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	ret = 1;
-	if (buf == NULL)
-		return (NULL);
 	while (!ft_strchr(left, '\n') && ret != 0)
 	{
-		tmp = left;
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
 		{
 			free(left);
-			free(buf);
 			return (NULL);
 		}
+		tmp = left;
 		buf[ret] = '\0';
 		left = ft_strjoin(left, buf);
 		free(tmp);
 	}
-	free(buf);
+	if (ft_strlen(left) == 0)
+	{
+		free(left);
+		return (NULL);
+	}
 	return (left);
 }
 
@@ -70,7 +70,7 @@ char	*new_left(char *left)
 	i = 0;
 	while (left[i] && left[i] != '\n')
 		i++;
-	if (!left[i])
+	if (!left[i] || !left[i + 1])
 		return (NULL);
 	left = ft_strdup(left + i + 1);
 	return (left);
