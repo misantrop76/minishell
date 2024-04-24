@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/23 18:25:47 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/24 00:45:06 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 char		*get_next_line(int fd);
 void		*get_env(t_list **lst, char **env);
 char		*get_var(char *cmp, t_list *env);
-void		*get_input(t_list *env);
+void		get_input(t_list *env);
 
 typedef struct s_token
 {

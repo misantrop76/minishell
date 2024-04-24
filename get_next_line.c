@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:19:01 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/23 12:54:37 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/24 01:17:32 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static char	*get_line(char *left)
 		i++;
 	if (left[i])
 	{
-		c = left[i + 1];
-		left[i + 1] = '\0';
+		c = left[i];
+		left[i] = '\0';
 		line = ft_strdup(left);
-		left[i + 1] = c;
+		left[i] = c;
 	}
 	else
 		line = ft_strdup(left);

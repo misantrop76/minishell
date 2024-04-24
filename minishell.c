@@ -6,13 +6,13 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:32:42 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/23 13:44:23 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/24 02:20:24 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	del(void *del)
+static void	del(void *del)
 {
 	free(del);
 }
