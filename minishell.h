@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/25 00:24:59 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:59:28 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,18 @@ typedef struct s_token
 	char	*value;
 }			t_token;
 
+typedef struct s_pipex
+{
+	char	*read_doc;
+	char	**input;
+	char	**out_a;
+	char	**out;
+	t_list	*cmd;
+}			t_pipex;
+
 typedef struct s_var
 {
+	int		status;
 	int		quote;
 	int		quote_s;
 	char	*str;
@@ -45,6 +55,9 @@ void		get_input(t_list *env);
 void		check_var(t_var *var, t_list *env, int *i, char *input);
 t_token		*mk_token(char *type, char *value);
 void		check_quote(char c, t_var *var, int *i);
-void		parse_token(t_list *token);
+int			parse_token(t_list *token);
+int			is_operator(char *str);
+void		del_token(void *to_del);
+int			check_error(t_list *lst_token);
 
 #endif

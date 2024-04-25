@@ -6,16 +6,16 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:42:30 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/25 00:34:34 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/25 12:57:41 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token		*mk_token(char *type, char *value)
+t_token	*mk_token(char *type, char *value)
 {
 	t_token	*token;
-	
+
 	token = malloc(sizeof(t_token) * 1);
 	if (type != NULL)
 		token->type = ft_strdup(type);
@@ -48,13 +48,15 @@ void	check_quote(char c, t_var *var, int *i)
 	}
 }
 
-char	*var_to_get(char *input, int *i, t_list *env)
+char	*var_to_get(char *input, int *i, t_list *env, int status)
 {
-	char	str[ft_strlen(input) + 1];
+	char	*str;
+	char	*var;
 	int		j;
 
 	*i += 1;
 	j = 0;
+	str = malloc(sizeof(char) * (ft_strlen(input + *i) + 1));
 	while (input[*i] && ft_isalnum(input[*i]))
 	{
 		str[j] = input[*i];
@@ -62,22 +64,32 @@ char	*var_to_get(char *input, int *i, t_list *env)
 		*i += 1;
 	}
 	str[j] = '\0';
-	return (get_var(str, env));
+	var = NULL;
+	if (ft_strlen(str) == 0 && input[*i] == '?')
+	{
+		var = ft_itoa(status);
+		*i += 1;
+	}
+	else if (get_var(str, env) != NULL)
+		var = ft_strdup(get_var(str, env));
+	free(str);
+	return (var);
 }
 
 void	check_var(t_var *var, t_list *env, int *i, char *input)
 {
-	char tmp[2];
+	char	tmp[2];
 
 	tmp[1] = '\0';
 	if (input[*i] == '$' && var->quote_s == 0)
 	{
 		var->tmp = var->str;
-		var->var_to_get = var_to_get(input, i, env);
+		var->var_to_get = var_to_get(input, i, env, var->status);
 		if (var->var_to_get)
 		{
 			var->str = ft_strjoin(var->str, var->var_to_get);
 			free(var->tmp);
+			free(var->var_to_get);
 		}
 	}
 	else if (input[*i])

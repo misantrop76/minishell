@@ -6,7 +6,7 @@
 #    By: mminet <mminet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 23:37:52 by mminet            #+#    #+#              #
-#    Updated: 2024/04/25 02:55:50 by mminet           ###   ########.fr        #
+#    Updated: 2024/04/25 14:26:01 by mminet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,8 @@ SRCS =	minishell.c\
 		my_env.c\
 		lexing.c\
 		lexing_utils.c\
-		parser.c
+		parser.c\
+		parser_utils.c\
 
 NAME = minishell
 
