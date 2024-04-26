@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/25 17:59:28 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:24:03 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft/libft.h"
 # include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -59,5 +61,6 @@ int			parse_token(t_list *token);
 int			is_operator(char *str);
 void		del_token(void *to_del);
 int			check_error(t_list *lst_token);
+int			check_input(char *input, t_list *env, int status);
 
 #endif

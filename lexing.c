@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/25 16:51:53 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:22:27 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,22 +97,4 @@ int	check_input(char *input, t_list *env, int status)
 	status = parse_token(token_lst);
 	ft_lstclear(&token_lst, del_token);
 	return (status);
-}
-
-void	get_input(t_list *env)
-{
-	char	*input;
-	int		status;
-
-	ft_putstr_fd(">", 1);
-	input = get_next_line(0);
-	status = 0;
-	while (input != NULL)
-	{
-		printf("input = %s\n", input);
-		status = check_input(input, env, status);
-		free(input);
-		ft_putstr_fd(">", 1);
-		input = get_next_line(0);
-	}
 }

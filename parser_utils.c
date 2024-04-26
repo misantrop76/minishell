@@ -6,11 +6,19 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 14:20:40 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/25 17:27:19 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:42:24 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	parse_error(char *str)
+{
+	ft_putstr_fd("parse error near '", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("'\n", 2);
+	return (1);
+}
 
 int		is_operator(char *str)
 {

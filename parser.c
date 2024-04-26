@@ -6,19 +6,11 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 00:20:11 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/25 17:56:28 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:38:53 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	parse_error(char *str)
-{
-	ft_putstr_fd("parse error near '", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd("'\n", 2);
-	return (1);
-}
 
 void	parse_redirection(t_list *token_lst)
 {
@@ -59,25 +51,21 @@ void	fill_pipex(t_pipex *pipex, t_list *lst)
 	t_token	*token;
 
 	init_pipex(pipex);
+	tmp = lst;
 	while (tmp)
 	{
 		token = tmp->content;
 		if (ft_strncmp(token->type, "STDIN", 5))
-			pipex
+			printf("hey\n");
+		tmp = tmp->content;
 	}
 }
 
-int	parse_token(t_list *token_lst)
+void print_token(t_list *token_lst)
 {
-	t_list	*tmp;
-	t_token	*token;
-	t_pipex pipex;
-	int		status;
+	t_list *tmp;
+	t_token *token;
 
-
-	status = check_error(token_lst);
-	parse_redirection(token_lst);
-	fill_pipex(&pipex, token_lst);
 	tmp = token_lst;
 	while (tmp)
 	{
@@ -85,7 +73,16 @@ int	parse_token(t_list *token_lst)
 		printf("type = %s		value = %s\n", token->type, token->value);
 		tmp = tmp->next;
 	}
-	if (status)
-		printf("%d\n", status);
+}
+
+int	parse_token(t_list *token_lst)
+{
+	int		status;
+
+
+	status = check_error(token_lst);
+	parse_redirection(token_lst);
+	if (!status)
+		print_token(token_lst);
 	return (status);
 }
