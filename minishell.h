@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/26 14:24:03 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:06:39 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <curses.h>
+#include <term.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

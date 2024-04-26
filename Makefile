@@ -6,7 +6,7 @@
 #    By: mminet <mminet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 23:37:52 by mminet            #+#    #+#              #
-#    Updated: 2024/04/26 14:29:22 by mminet           ###   ########.fr        #
+#    Updated: 2024/04/26 15:10:14 by mminet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ LIBFT = ./libft/libft.a
 
 CC = gcc 
 
-FLAGS = -Wall -Wextra -Werror -lreadline
+FLAGS = -Wall -Wextra -Werror -lreadline -ltermcap 
 
 OBJ = $(patsubst %.c, obj/%.o, $(SRCS))
 

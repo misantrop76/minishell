@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 00:20:11 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/26 14:38:53 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:24:57 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	parse_token(t_list *token_lst)
 {
 	int		status;
 
-
+	if (!token_lst)
+		return (0);
 	status = check_error(token_lst);
 	parse_redirection(token_lst);
 	if (!status)
