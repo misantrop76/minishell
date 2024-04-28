@@ -6,17 +6,11 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/27 23:29:37 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/28 02:31:31 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	my_putchar(int c)
-{
-	write(1, &c, 1);
-	return (0);
-}
 
 char	*print_prompt(t_list *env, int status)
 {
