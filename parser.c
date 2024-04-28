@@ -6,11 +6,59 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 00:20:11 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/26 16:24:57 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/28 01:51:53 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+int		get_len_cmd(t_list *token_lst)
+{
+	int		len;
+	t_list	*tmp;
+	t_token	*token;
+
+	len = 0;
+	tmp = token_lst;
+	token = tmp->content;
+	while (tmp && ft_strncmp(token->type, "PIPE", 4) != 0)
+	{
+		token = tmp->content;
+		if (ft_strncmp(token->type, "WORD", 4) == 0)
+			len++;
+		tmp = tmp->next;
+	}
+	return (len);
+}
+
+char	**get_cmd(t_list *token_lst)
+{
+	char	**cmd;
+	t_list	*tmp;
+	t_token	*token;
+	int		len;
+
+	len = get_len_cmd(token_lst);
+	if (!len)
+		return(NULL);
+	cmd = malloc(sizeof(char *) * (len + 1));
+	tmp = token_lst;
+	token = tmp->content;
+	len = 0;
+	while (tmp && ft_strncmp(token->type, "PIPE", 4) != 0)
+	{
+		token = tmp->content;
+		if (ft_strncmp(token->type, "WORD", 4) == 0)
+		{
+			cmd[len] = ft_strdup(token->value);
+			len++;	
+		}
+		tmp = tmp->next;
+	}
+	cmd[len] = NULL;
+	return (cmd);
+}
 
 void	parse_redirection(t_list *token_lst)
 {
@@ -37,40 +85,35 @@ void	parse_redirection(t_list *token_lst)
 	}
 }
 
-void	init_pipex(t_pipex *pipex)
+void	free_tab(char **cmd)
 {
-	pipex->input = NULL;
-	pipex->read_doc = NULL;
-	pipex->out = NULL;
-	pipex->out_a = NULL;
-}
+	int i;
 
-void	fill_pipex(t_pipex *pipex, t_list *lst)
-{
-	t_list	*tmp;
-	t_token	*token;
-
-	init_pipex(pipex);
-	tmp = lst;
-	while (tmp)
-	{
-		token = tmp->content;
-		if (ft_strncmp(token->type, "STDIN", 5))
-			printf("hey\n");
-		tmp = tmp->content;
-	}
+	i = 0;
+	while (cmd[i])
+		free(cmd[i++]);
+	free(cmd);
 }
 
 void print_token(t_list *token_lst)
 {
 	t_list *tmp;
 	t_token *token;
+	char	**cmd;
 
 	tmp = token_lst;
 	while (tmp)
 	{
 		token = (t_token *)tmp->content;
-		printf("type = %s		value = %s\n", token->type, token->value);
+		int i = 0;
+		cmd = get_cmd(tmp);
+		if (cmd)
+		{
+			while (cmd[i])
+				printf("|%s|", cmd[i++]);
+			free_tab(cmd);
+		}
+		printf("\ntype = %s		value = %s\n", token->type, token->value);
 		tmp = tmp->next;
 	}
 }
@@ -82,6 +125,8 @@ int	parse_token(t_list *token_lst)
 	if (!token_lst)
 		return (0);
 	status = check_error(token_lst);
+	if (status)
+		return(status);
 	parse_redirection(token_lst);
 	if (!status)
 		print_token(token_lst);

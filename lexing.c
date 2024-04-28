@@ -6,11 +6,21 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/26 14:22:27 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/27 23:21:37 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int 	is_ispace(char c, int op)
+{
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	if (op)
+		if (c == '|' || c == '>' || c == '<')
+			return (1);
+	return (0);
+}
 
 t_token	*mk_word(char *input, int *i, t_list *env, int status)
 {
@@ -20,7 +30,7 @@ t_token	*mk_word(char *input, int *i, t_list *env, int status)
 	var.quote_s = 0;
 	var.str = ft_strdup("");
 	var.status = status;
-	while (input[*i] && (var.quote || var.quote_s || input[*i] != ' '))
+	while (input[*i] && (var.quote || var.quote_s || is_ispace(input[*i], 1) == 0))
 	{
 		if ((input[*i] == '"' && var.quote_s == 0) || (input[*i] == 39
 				&& var.quote == 0))
@@ -84,7 +94,7 @@ int	check_input(char *input, t_list *env, int status)
 	token_lst = NULL;
 	while (input[i])
 	{
-		while (input[i] == ' ' || input[i] == '	')
+		while (is_ispace(input[i], 0))
 			i++;
 		if (!input[i])
 			break ;

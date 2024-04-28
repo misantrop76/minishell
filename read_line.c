@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/26 16:32:18 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/27 23:29:37 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,15 @@ char	*print_prompt(t_list *env, int status)
 	while (i - 1 >= 0 && pwd[i - 1] != '/')
 		i--;
 	if (status)
-		str = ft_strdup("\033[31m");
+		str = ft_strdup("\033[31m-> \033[34m");
 	else
-		str = ft_strdup("\033[32m");
-	tmp = str;
-	str = ft_strjoin(str, "-> ");
-	free(tmp);
-	tmp = str;
-	str = ft_strjoin(str, "\033[34m");
-	free(tmp);
+		str = ft_strdup("\033[32m-> \033[34m");
 	tmp = str;
 	str = ft_strjoin(str, pwd + i);
 	free(tmp);
 	tmp = str;
 	str = ft_strjoin(str," \033[0m");
 	free(tmp);
-	tmp = str;
 	return (str);
 }
 
