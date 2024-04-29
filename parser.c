@@ -6,14 +6,13 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 00:20:11 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 13:29:47 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:36:44 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int		get_len_cmd(t_list *token_lst)
+int	get_len_cmd(t_list *token_lst)
 {
 	int		len;
 	t_list	*tmp;
@@ -41,7 +40,7 @@ char	**get_cmd(t_list *token_lst)
 
 	len = get_len_cmd(token_lst);
 	if (!len)
-		return(NULL);
+		return (NULL);
 	cmd = malloc(sizeof(char *) * (len + 1));
 	tmp = token_lst;
 	token = tmp->content;
@@ -52,7 +51,7 @@ char	**get_cmd(t_list *token_lst)
 		if (ft_strncmp(token->type, "WORD", 4) == 0)
 		{
 			cmd[len] = ft_strdup(token->value);
-			len++;	
+			len++;
 		}
 		tmp = tmp->next;
 	}
@@ -62,8 +61,8 @@ char	**get_cmd(t_list *token_lst)
 
 void	parse_redirection(t_list *token_lst)
 {
-	t_token *token;
-	t_token *token_next;
+	t_token	*token;
+	t_token	*token_next;
 	t_list	*tmp;
 	t_list	*to_del;
 
@@ -73,7 +72,8 @@ void	parse_redirection(t_list *token_lst)
 		token = tmp->content;
 		if (tmp->next)
 			token_next = tmp->next->content;
-		if (ft_strncmp(token->type, "STD", 3) == 0 || ft_strncmp(token->type, "READ", 3) == 0)
+		if (ft_strncmp(token->type, "STD", 3) == 0 || ft_strncmp(token->type,
+				"READ", 3) == 0)
 		{
 			free(token->value);
 			token->value = ft_strdup(token_next->value);
@@ -87,7 +87,7 @@ void	parse_redirection(t_list *token_lst)
 
 void	free_tab(char **cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd[i])
@@ -95,10 +95,10 @@ void	free_tab(char **cmd)
 	free(cmd);
 }
 
-void print_token(t_list *token_lst)
+void	print_token(t_list *token_lst)
 {
-	t_list *tmp;
-	t_token *token;
+	t_list	*tmp;
+	t_token	*token;
 
 	tmp = token_lst;
 	while (tmp)
@@ -111,17 +111,17 @@ void print_token(t_list *token_lst)
 
 int	parse_token(t_list *token_lst, t_list *my_env, char **env)
 {
-	int		status;
+	int	status;
 
 	if (!token_lst)
 		return (0);
 	status = check_error(token_lst);
 	if (status)
-		return(status);
+		return (status);
 	(void)my_env;
 	(void)env;
 	parse_redirection(token_lst);
 	print_token(token_lst);
-	//status = exec_line(token_lst, my_env, env);
+	// status = exec_line(token_lst, my_env, env);
 	return (status);
 }

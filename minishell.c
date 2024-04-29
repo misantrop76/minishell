@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:32:42 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 12:27:31 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:37:41 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static void	del(void *del)
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	//printf("signal = %d\n", sig);
-	printf("\n");
+	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 13:04:51 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:38:34 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
-#include <signal.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

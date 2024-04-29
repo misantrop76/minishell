@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 14:20:40 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/28 01:28:59 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:43:23 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	parse_error(char *str)
 	return (1);
 }
 
-int		is_operator(char *str)
+int	is_operator(char *str)
 {
 	if (ft_strncmp(str, "STD", 3) == 0)
 		return (1);
@@ -41,19 +41,19 @@ int	check_error(t_list *lst_token)
 		return (parse_error(token->value));
 	while (tmp->next)
 	{
-		token = tmp->content;
 		token_next = tmp->next->content;
 		if (ft_strncmp(token->type, "ERROR", 5) == 0)
 			return (parse_error(token->value));
-		if (ft_strncmp(token->type, "PIPE", 4) == 0 && ft_strncmp(token_next->type, "PIPE", 4) == 0)
+		if (ft_strncmp(token->type, "PIPE", 4) == 0
+			&& ft_strncmp(token_next->type, "PIPE", 4) == 0)
 			return (parse_error(token->value));
-		if (is_operator(token->type) && ft_strncmp(token_next->type, "WORD", 4 != 0))
+		if (is_operator(token->type) && ft_strncmp(token_next->type, "WORD",
+				4 != 0))
 			return (parse_error(token->value));
 		tmp = tmp->next;
+		token = tmp->content;
 	}
-	token = tmp->content;
 	if (is_operator(token->type) || (ft_strncmp(token->type, "PIPE", 4) == 0))
 		return (parse_error(token->value));
 	return (0);
 }
-

@@ -6,13 +6,13 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 12:30:44 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:37:06 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int 	is_ispace(char c, int op)
+int	is_ispace(char c, int op)
 {
 	if ((c >= 9 && c <= 13) || c == ' ')
 		return (1);
@@ -30,7 +30,8 @@ t_token	*mk_word(char *input, int *i, t_list *env, int status)
 	var.quote_s = 0;
 	var.str = ft_strdup("");
 	var.status = status;
-	while (input[*i] && (var.quote || var.quote_s || is_ispace(input[*i], 1) == 0))
+	while (input[*i] && (var.quote || var.quote_s || is_ispace(input[*i],
+				1) == 0))
 	{
 		if ((input[*i] == '"' && var.quote_s == 0) || (input[*i] == 39
 				&& var.quote == 0))

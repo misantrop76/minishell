@@ -6,24 +6,25 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/04/29 13:30:52 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:38:10 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_cmd_env()
+int	check_cmd_env(void)
 {
-	int i;
-	char *path;
-	char *newpath;
+	int		i;
+	char	*path;
+	char	*newpath;
 
 	i = 0;
 	// path = get_var(char *cmp, t_list *env);
 	newpath = NULL;
 	while ()
 	{
-		newpath = strjoin(path, list_command[i]); // create a new path with origin path + command
+		newpath = strjoin(path, list_command[i]);
+		// create a new path with origin path + command
 		if (execve(command_name, args, env) != -1)
 		{
 			i++;
@@ -33,13 +34,12 @@ int check_cmd_env()
 	return (0); // no cmd find
 }
 
-
-int			exec_line(t_token *token_lst, t_list *my_env, char **env)
+int	exec_line(t_token *token_lst, t_list *my_env, char **env)
 {
 	char	**cmd;
 	t_list	*tmp;
-	t_token *token;
-	int status;
+	t_token	*token;
+	int		status;
 
 	tmp = token_lst;
 	while (tmp)
@@ -54,10 +54,10 @@ int			exec_line(t_token *token_lst, t_list *my_env, char **env)
 			tmp = tmp->next;
 		}
 		if (tmp)
-			//exec_with_pipe(cmd, my_env, env);
-		else
-			//last_exec(cmd, my_env, env);
-		tmp = tmp->next;
+			// exec_with_pipe(cmd, my_env, env);
+			else
+				// last_exec(cmd, my_env, env);
+				tmp = tmp->next;
 	}
 	waitpid(last_pid, &status);
 	return (status);
