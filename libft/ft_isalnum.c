@@ -1,42 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/22 23:32:42 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 12:24:10 by mminet           ###   ########.fr       */
+/*   Created: 2024/03/11 13:34:10 by mminet            #+#    #+#             */
+/*   Updated: 2024/03/11 13:44:43 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-static void	del(void *del)
+int	ft_isalnum(int c)
 {
-	free(del);
-}
-
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	//printf("signal = %d\n", sig);
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-int	main(int ac, char **av, char **env)
-{
-	t_list	*my_env;
-
-	(void)av;
-	if (ac != 1)
+	if (ft_isalpha(c) || ft_isdigit(c))
 		return (1);
-	signal(SIGINT, handle_sigint);
-	my_env = NULL;
-	get_env(&my_env, env);
-	get_input(my_env);
-	ft_lstclear(&my_env, del);
+	return (0);
 }
