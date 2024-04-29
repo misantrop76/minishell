@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/27 23:21:37 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 12:30:44 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	del_token(void *to_del)
 	free(token);
 }
 
-int	check_input(char *input, t_list *env, int status)
+int	check_input(char *input, t_list *my_env, int status, char **env)
 {
 	t_list	*token_lst;
 	t_token	*token;
@@ -98,13 +98,13 @@ int	check_input(char *input, t_list *env, int status)
 			i++;
 		if (!input[i])
 			break ;
-		token = get_token(input, &i, env, status);
+		token = get_token(input, &i, my_env, status);
 		if (ft_strlen(token->value) == 0)
 			del_token(token);
 		else
 			ft_lstadd_back(&token_lst, ft_lstnew(token));
 	}
-	status = parse_token(token_lst);
+	status = parse_token(token_lst, my_env, env);
 	ft_lstclear(&token_lst, del_token);
 	return (status);
 }
