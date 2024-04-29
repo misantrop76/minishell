@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 12:40:00 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:04:51 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ int			is_operator(char *str);
 void		del_token(void *to_del);
 int			check_error(t_list *lst_token);
 int			check_input(char *input, t_list *my_env, int status, char **env);
+int			exec_line(t_token *token_lst, t_list *my_env, char **env);
 
 #endif
