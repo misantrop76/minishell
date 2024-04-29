@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/04/29 13:38:10 by mminet           ###   ########.fr       */
+/*   Updated: 2024/04/29 14:40:37 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	exec_line(t_token *token_lst, t_list *my_env, char **env)
 		}
 		if (tmp)
 			// exec_with_pipe(cmd, my_env, env);
-			else
-				// last_exec(cmd, my_env, env);
-				tmp = tmp->next;
+		else
+			// last_exec(cmd, my_env, env);
+		tmp = tmp->next;
 	}
 	waitpid(last_pid, &status);
 	return (status);
