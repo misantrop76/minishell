@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 00:20:11 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 13:36:44 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:32:03 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	parse_token(t_list *token_lst, t_list *my_env, char **env)
 	(void)my_env;
 	(void)env;
 	parse_redirection(token_lst);
-	print_token(token_lst);
-	// status = exec_line(token_lst, my_env, env);
+	//print_token(token_lst);
+	status = exec_line(token_lst, my_env, env);
 	return (status);
 }

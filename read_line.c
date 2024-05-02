@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 14:57:03 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/02 18:26:08 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*print_prompt(t_list *env, int status)
 
 	pwd = get_var("PWD", env);
 	if (!pwd)
-		return ("");
+		return (ft_strdup(""));
 	i = ft_strlen(pwd) - 1;
 	while (i - 1 >= 0 && pwd[i - 1] != '/')
 		i--;
