@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/03 14:58:48 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/03 18:04:36 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 # include "libft/libft.h"
 # include <errno.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
@@ -53,6 +55,7 @@ typedef struct s_var
 }			t_var;
 
 void		del_token(void *to_del);
+void		ft_open(t_token *token_list);
 char		*get_next_line(int fd);
 void		is_build_in(char **cmd, t_list **env);
 void		*get_env(t_list **lst, char **env);

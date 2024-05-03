@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:10:59 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/03 16:10:20 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/03 17:58:46 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	make_cd(char **cmd, t_list *env)
 		ft_putstr_fd("\n", 2);
 	}
 	free(str);
-	// exit(0);
+	exit(0);
 }
 
 void	make_pwd(char **cmd)
@@ -47,13 +47,14 @@ void	make_pwd(char **cmd)
 	if (cmd[1])
 	{
 		ft_putstr_fd("pwd : wrong number of arguments\n", 2);
-		// exit(1);
+		exit(1);
 	}
 	else if (getcwd(buf, 99))
 	{
 		ft_putstr_fd(buf, 1);
 		ft_putstr_fd("\n", 1);
 	}
+	exit(0);
 }
 
 void	make_export(char **cmd, t_list **env)
@@ -64,7 +65,7 @@ void	make_export(char **cmd, t_list **env)
 	if (!cmd[1] || cmd[2])
 	{
 		ft_putstr_fd("export : wrong number of arguments\n", 2);
-		// exit(1);
+		exit(1);
 	}
 	i = 0;
 	while (cmd[1][i] && cmd[1][i] != '=')
@@ -80,7 +81,7 @@ void	make_export(char **cmd, t_list **env)
 	}
 	else
 		change_var(*env, cmd[1], cmd[1] + i + 1);
-	// exit(0);
+	exit(0);
 }
 
 void	make_env(char **cmd, t_list *env)
@@ -99,7 +100,7 @@ void	make_env(char **cmd, t_list *env)
 		ft_putstr_fd("\n", 1);
 		tmp = tmp->next;
 	}
-	//exit(0);
+	exit(0);
 }
 
 void	make_unset(char **cmd, t_list **env)
@@ -126,7 +127,7 @@ void	make_unset(char **cmd, t_list **env)
 	}
 	free(to_del->content);
 	free(to_del);
-	//exit (0);
+	exit (0);
 }
 
 void	make_echo(char **cmd)
@@ -149,7 +150,7 @@ void	make_echo(char **cmd)
 	}
 	if (!flag)
 		ft_putstr_fd("\n", 1);
-	//exit(0);
+	exit(0);
 }
 
 void	is_build_in(char **cmd, t_list **env)
