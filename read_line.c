@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/02 18:26:08 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/03 14:59:34 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ char	*print_prompt(t_list *env, int status)
 	return (str);
 }
 
-void	get_input(t_list *my_env, char **env)
+void	get_input(t_list **my_env, char **env)
 {
 	char	*input;
 	int		status;
 	char	*tmp;
 
 	status = 0;
-	tmp = print_prompt(my_env, status);
+	tmp = print_prompt(*my_env, status);
 	input = readline(tmp);
 	free(tmp);
 	(void)tmp;
@@ -57,7 +57,7 @@ void	get_input(t_list *my_env, char **env)
 			status = check_input(input, my_env, status, env);
 		}
 		free(input);
-		tmp = print_prompt(my_env, status);
+		tmp = print_prompt(*my_env, status);
 		input = readline(tmp);
 		free(tmp);
 	}

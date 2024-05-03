@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/02 17:37:33 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:00:11 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_cmd_env(void)
 	return (0); // no cmd find
 }
 */
-int	exec_line(t_list *token_lst, t_list *my_env, char **env)
+int	exec_line(t_list *token_lst, t_list **my_env, char **env)
 {
 	char	**cmd;
 	int i;
