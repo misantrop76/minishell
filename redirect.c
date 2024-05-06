@@ -95,7 +95,6 @@ void	heredoc(char *limit)
 		wait(NULL);
 	}
 }
-}
 
 void	ft_open(t_token *token)
 {
