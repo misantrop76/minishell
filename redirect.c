@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 15:12:21 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/03 18:20:42 by mminet           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 // > out
@@ -111,5 +99,5 @@ void	ft_open(t_token *token)
 	else if (ft_strncmp(token->type, "STDIN", 5) == 0)
 		redirection_input(token->value);
 	else if (ft_strncmp(token->type, "READ", 4) == 0)
-		heredoc(token->type);
+		heredoc(token->value);
 }
