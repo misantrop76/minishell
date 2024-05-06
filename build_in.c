@@ -6,56 +6,11 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:10:59 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/03 17:58:46 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:02:43 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	make_cd(char **cmd, t_list *env)
-{
-	char	buf[100];
-	char	*str;
-
-	if (cmd[2] && cmd[3])
-	{
-		ft_putstr_fd("cd : wrong number of arguments\n", 2);
-		// exit(1);
-	}
-	if (!cmd[1] || ft_strncmp(cmd[1], "~", 2) == 0)
-		str = ft_strdup(get_var("HOME", env));
-	else
-		str = ft_strdup(cmd[1]);
-	if (!chdir(str))
-	{
-		if (getcwd(buf, 99))
-			change_var(env, "PWD", getcwd(buf, 99));
-	}
-	else
-	{
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
-	}
-	free(str);
-	exit(0);
-}
-
-void	make_pwd(char **cmd)
-{
-	char	buf[100];
-
-	if (cmd[1])
-	{
-		ft_putstr_fd("pwd : wrong number of arguments\n", 2);
-		exit(1);
-	}
-	else if (getcwd(buf, 99))
-	{
-		ft_putstr_fd(buf, 1);
-		ft_putstr_fd("\n", 1);
-	}
-	exit(0);
-}
 
 void	make_export(char **cmd, t_list **env)
 {

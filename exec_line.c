@@ -6,20 +6,18 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/03 18:58:17 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/06 14:32:56 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_cmd(char **cmd, char **env, t_list **my_env)
+void	exec_cmd(char **cmd, t_list **my_env)
 {
+	// char	*path;
+	// char	*newpath;
 	/*int		i;
-	char	*path;
-	char	*newpath;
-
 	i = 0;*/
-	(void)env;
 	is_build_in(cmd, my_env);
 	// path = get_var(char *cmp, t_list *env);
 	// newpath = ft_strjoin(path, list_command[i]);
@@ -29,10 +27,10 @@ void	exec_cmd(char **cmd, char **env, t_list **my_env)
 		i++;
 		return (1);// good this cmd are real
 	}*/
-	exit (0);
+	exit(0);
 }
 
-int		check_cmd(char **cmd, char **env, t_list **my_env, int i)
+int	check_cmd(char **cmd, t_list **my_env, int i)
 {
 	pid_t	pid;
 	int		p_fd[2];
@@ -49,55 +47,53 @@ int		check_cmd(char **cmd, char **env, t_list **my_env, int i)
 		if (i)
 			dup2(p_fd[1], STDOUT_FILENO);
 		close(p_fd[1]);
-		exec_cmd(cmd, env, my_env);
+		exec_cmd(cmd, my_env);
 	}
 	else
 	{
 		last_pid = pid;
 		close(p_fd[1]);
-		if (i)
-			dup2(p_fd[0], STDIN_FILENO);
+		dup2(p_fd[0], STDIN_FILENO);
 		close(p_fd[0]);
 	}
 	return (last_pid);
 }
 
-int	exec_line(t_list *token_lst, t_list **my_env, char **env)
+void	parse_line(t_pipex *pipex, t_list **my_env)
 {
-	char	**cmd;
-	t_list	*tmp;
-	t_token	*token;
-	int		status;
-	int		last_pid;
-	int		old_stdout;
-	int		old_stdin;
-
-	tmp = token_lst;
-	old_stdout = dup(STDOUT_FILENO);
-	old_stdin = dup(STDIN_FILENO);
-	while (tmp)
+	pipex->token = pipex->tmp->content;
+	pipex->cmd = get_cmd(pipex->token_lst);
+	while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4))
 	{
-		token = tmp->content;
-		cmd = get_cmd(token_lst);
-		while (tmp && ft_strncmp(token->type, "PIPE", 4))
-		{
-			token = tmp->content;
-			if (ft_strncmp(token->type, "WORD", 4))
-				ft_open(token);
-			tmp = tmp->next;
-		}
-		if (tmp && cmd)
-		{
-			last_pid = check_cmd(cmd, env, my_env, 1);
-			tmp = tmp->next;
-		}
-		else if(cmd)
-			last_pid = check_cmd(cmd, env, my_env, 0);
-		dup2(old_stdout, STDOUT_FILENO);
+		pipex->token = pipex->tmp->content;
+		if (ft_strncmp(pipex->token->type, "WORD", 4))
+			ft_open(pipex->token);
+		pipex->tmp = pipex->tmp->next;
 	}
-	if (cmd)
-		waitpid(last_pid, &status, 0);
-	dup2(old_stdout, STDOUT_FILENO);
-	dup2(old_stdin, STDIN_FILENO);
-	return (status >> 8);
+	if (pipex->tmp && pipex->cmd && ft_strncmp(pipex->cmd[0], "exit", 6))
+	{
+		pipex->last_pid = check_cmd(pipex->cmd, my_env, 1);
+		pipex->tmp = pipex->tmp->next;
+	}
+	else if (pipex->cmd && ft_strncmp(pipex->cmd[0], "exit", 6))
+		pipex->last_pid = check_cmd(pipex->cmd, my_env, 0);
+	else if (pipex->cmd && ft_strncmp(pipex->cmd[0], "exit", 6) == 0)
+		make_exit(pipex, my_env);
+}
+
+int	exec_line(t_list *token_lst, t_list **my_env)
+{
+	t_pipex	pipex;
+
+	pipex.tmp = token_lst;
+	pipex.old_stdout = dup(STDOUT_FILENO);
+	pipex.old_stdin = dup(STDIN_FILENO);
+	pipex.token_lst = token_lst;
+	while (pipex.tmp)
+		parse_line(&pipex, my_env);
+	if (pipex.cmd)
+		waitpid(pipex.last_pid, &pipex.status, 0);
+	dup2(pipex.old_stdout, STDOUT_FILENO);
+	dup2(pipex.old_stdin, STDIN_FILENO);
+	return (pipex.status >> 8);
 }

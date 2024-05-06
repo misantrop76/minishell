@@ -6,7 +6,7 @@
 #    By: mminet <mminet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 23:37:52 by mminet            #+#    #+#              #
-#    Updated: 2024/05/03 18:06:50 by mminet           ###   ########.fr        #
+#    Updated: 2024/05/06 13:01:38 by mminet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRCS =	minishell.c\
 		exec_line.c\
 		build_in.c\
 		redirect.c\
+		build_in_utils.c\
 
 NAME = minishell
 
