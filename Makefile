@@ -6,7 +6,7 @@
 #    By: mminet <mminet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 23:37:52 by mminet            #+#    #+#              #
-#    Updated: 2024/05/06 13:01:38 by mminet           ###   ########.fr        #
+#    Updated: 2024/05/07 00:58:00 by mminet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,6 @@ SRCS_L =	libft/ft_atoi.c\
 			libft/ft_toupper.c\
 
 SRCS =	minishell.c\
-		get_next_line.c\
 		my_env.c\
 		lexing.c\
 		lexing_utils.c\

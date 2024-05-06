@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/07 00:53:14 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/07 00:57:00 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,11 @@
 
 void	exec_cmd(char **cmd, t_list **my_env)
 {
-	char	**path;
-	char	*test;
-	char	**args;
-	int		i;
-
-	is_build_in(cmd, my_env);
-	path = ft_split(get_var("PATH", *my_env), ':');
-	args = cmd;
-	i = 0;
-	execve(args[0], args, NULL);
-	while (path[i])
-	{
-		test = ft_strjoin(ft_strjoin(path[i], "/"), args[0]);
-		execve(test, args, NULL);
-		free(test);
-		i++;
-	}
-	ft_putstr_fd("command not found: ", 2);
-	ft_putstr_fd(args[0], 2);
-	ft_putstr_fd("\n", 2);
-	free_tab(path);
-	free_tab(args);
-	exit(127);
 	// char	*path;
 	// char	*newpath;
 	/*int		i;
 	i = 0;*/
+	is_build_in(cmd, my_env);
 	// path = get_var(char *cmp, t_list *env);
 	// newpath = ft_strjoin(path, list_command[i]);
 	// create a new path with origin path + command
@@ -49,6 +27,7 @@ void	exec_cmd(char **cmd, t_list **my_env)
 		i++;
 		return (1);// good this cmd are real
 	}*/
+	exit(0);
 }
 
 int	check_cmd(char **cmd, t_list **my_env, int i)
