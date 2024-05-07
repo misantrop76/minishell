@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/07 13:41:07 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/07 14:00:51 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,32 @@ char	*print_prompt(t_list *env, int status)
 	return (str);
 }
 
+void	handler_ignor(int sig)
+{
+	(void)sig;
+	ft_putstr_fd("\n", 1);
+}
+
+void	handler(int sig)
+{
+	(void)sig;
+	ft_putstr_fd("\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 void	get_input(t_list **my_env)
 {
 	char	*input;
 	int		status;
 	char	*tmp;
+	struct sigaction	sa;
 
+	sa.sa_handler = &handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGINT, &sa, NULL);
 	status = 0;
 	tmp = print_prompt(*my_env, status);
 	input = NULL;
@@ -54,8 +74,14 @@ void	get_input(t_list **my_env)
 	{
 		if (ft_strlen(input))
 		{
+			sa.sa_handler = &handler_ignor;
+			sigaction(SIGINT, &sa, NULL);
 			add_history(input);
 			status = check_input(input, my_env, status);
+			if (status < 0 || status > 255)
+				status = 130;
+			sa.sa_handler = &handler;
+			sigaction(SIGINT, &sa, NULL);
 		}
 		free(input);
 		tmp = print_prompt(*my_env, status);
