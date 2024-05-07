@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:19:09 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/07 13:43:43 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/07 16:13:39 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ void redirection_out(char *output)
 	int fd_output;
 
 	fd_output = open(output, O_CREAT | O_RDWR | O_TRUNC, 00664);
-	// if (fd_output == -1)
-	// 	// error
+	if (fd_output == -1)
+	{
+		ft_putstr_fd("permission denied : ", 1);
+		ft_putstr_fd(output, 1);
+		ft_putstr_fd("\n", 1);
+		exit(1);
+	}
 	if (dup2(fd_output, STDOUT_FILENO) == -1)
-		// error
+		exit(1);
 	close(fd_output);
 }
 
@@ -32,10 +37,15 @@ void redirection_out_append(char *output)
 	int fd_output;
 
 	fd_output = open(output, O_CREAT | O_RDWR | O_APPEND, 00664);
-	// if (fd_output == -1)
-	// 	// error
+	if (fd_output == -1)
+	{
+		ft_putstr_fd("permission denied : ", 1);
+		ft_putstr_fd(output, 1);
+		ft_putstr_fd("\n", 1);
+		exit(1);
+	}
 	if (dup2(fd_output, STDOUT_FILENO) == -1)
-		// error
+		exit(1);
 	close(fd_output);
 }
 
@@ -49,11 +59,13 @@ void redirection_input(char *input)
         fd_input = open(input, O_RDONLY, 00664);
     else
 	{
-		// error
+		ft_putstr_fd("permission denied : ", 1);
+		ft_putstr_fd(input, 1);
         fd_input = open("/dev/null", O_RDONLY, 00664);
+		exit(1);
     }
     if (dup2(fd_input, STDIN_FILENO) == -1)
-		// error
+		exit(1);
     close(fd_input);
 }
 
@@ -66,18 +78,10 @@ void	heredoc(char *limit)
 	char	*buf;
 
 	if (pipe(p_fd) == -1)
-	{
-		// error
-		printf("error 1");
-		exit(0);
-	}
+		exit(1);
 	pid = fork();
 	if (pid == -1)
-	{
-		// error
-		printf("error la");
-		exit(0);
-	}
+		exit(1);
 	if (pid == 0)
 	{
 		close(p_fd[0]);
