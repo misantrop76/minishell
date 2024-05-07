@@ -3,31 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   exec_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/07 00:57:00 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/07 13:08:16 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_cmd(char **cmd, t_list **my_env)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execve.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/06 13:56:59 by ehay              #+#    #+#             */
+/*   Updated: 2024/05/06 16:21:59 by ehay             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	exec_cmd(char **cmd, t_list **env)
 {
-	// char	*path;
-	// char	*newpath;
-	/*int		i;
-	i = 0;*/
-	is_build_in(cmd, my_env);
-	// path = get_var(char *cmp, t_list *env);
-	// newpath = ft_strjoin(path, list_command[i]);
-	// create a new path with origin path + command
-	/*if (execve(command_name, args, env) != -1)
-	{
-		i++;
-		return (1);// good this cmd are real
-	}*/
-	exit(0);
+	char	*newpath;
+    int     i;
+
+    newpath = NULL;
+    i = 0;
+
+    is_build_in(cmd, env);
+    while (cmd[i] != '\0')
+    {
+        if (cmd[0][i] == '/' && cmd[0][i + 1] == 'b' && cmd[0][i + 2] == 'i' && cmd[0][i + 3] == 'n' && cmd[0][i + 4] == '/')
+            execve(cmd[0], cmd, env);
+        else
+        {
+            newpath = ft_strjoin("/bin/", cmd[0]);
+            execve(newpath, cmd, env);
+            free(newpath);
+        }
+        i++;
+    }
 }
 
 int	check_cmd(char **cmd, t_list **my_env, int i)
