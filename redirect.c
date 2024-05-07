@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:19:09 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/07 13:19:10 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/07 13:43:43 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	heredoc(char *limit)
 void	ft_open(t_token *token)
 {
 	if (ft_strncmp(token->type, "STDOUT_A", 8) == 0)
-		redirection_out_append(token->type);
+		redirection_out_append(token->value);
 	else if (ft_strncmp(token->type, "STDOUT", 6) == 0)
 		redirection_out(token->value);
 	else if (ft_strncmp(token->type, "STDIN", 5) == 0)
