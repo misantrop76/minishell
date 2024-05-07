@@ -6,7 +6,7 @@
 /*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/07 13:18:55 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/07 13:24:03 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	exec_cmd(char **cmd, t_list **env)
     while (cmd[i] != '\0')
     {
         if (cmd[0][i] == '/' && cmd[0][i + 1] == 'b' && cmd[0][i + 2] == 'i' && cmd[0][i + 3] == 'n' && cmd[0][i + 4] == '/')
-            execve(cmd[0], cmd, env);
+            execve(cmd[0], cmd, NULL);
         else
         {
             newpath = ft_strjoin("/bin/", cmd[0]);
-            execve(newpath, cmd, env);
+            execve(newpath, cmd, NULL);
             free(newpath);
         }
         i++;

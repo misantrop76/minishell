@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/06 16:58:33 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/07 13:41:29 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// struct sigaction	sa_newsig;
+// 		sa_newsig.sa_handler = &ft_confirm;
+//		sigemptyset(&sa_newsig.sa_mask);
+//		sa_newsig.sa_flags = SA_SIGINFO;
+//		if (sigaction(SIGUSR1, &sa_newsig, NULL) == -1)
+//			ft_printf("Failed to change SIGUSR1's behavior");
 
 char	*print_prompt(t_list *env, int status)
 {
