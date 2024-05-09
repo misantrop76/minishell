@@ -6,13 +6,13 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/06 15:27:59 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 03:40:12 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	make_cd(char **cmd, t_list *env)
+int	make_cd(char **cmd, t_list *env)
 {
 	char	buf[100];
 	char	*str;
@@ -20,7 +20,7 @@ void	make_cd(char **cmd, t_list *env)
 	if (cmd[2] && cmd[3])
 	{
 		ft_putstr_fd("cd : wrong number of arguments\n", 2);
-		exit(1);
+		return (1);
 	}
 	if (!cmd[1] || ft_strncmp(cmd[1], "~", 2) == 0)
 		str = ft_strdup(get_var("HOME", env));
@@ -37,24 +37,20 @@ void	make_cd(char **cmd, t_list *env)
 		ft_putstr_fd("\n", 2);
 	}
 	free(str);
-	exit(0);
+	return (0);
 }
 
-void	make_pwd(char **cmd)
+int	make_pwd(char **cmd)
 {
 	char	buf[100];
 
-	if (cmd[1])
-	{
-		ft_putstr_fd("pwd : wrong number of arguments\n", 2);
-		exit(1);
-	}
-	else if (getcwd(buf, 99))
+	(void)cmd;
+	if (getcwd(buf, 99))
 	{
 		ft_putstr_fd(buf, 1);
 		ft_putstr_fd("\n", 1);
 	}
-	exit(0);
+	return(0);
 }
 
 void	free_param(t_pipex *pipex, t_list **env, int code)
@@ -64,7 +60,6 @@ void	free_param(t_pipex *pipex, t_list **env, int code)
 	free_tab(pipex->cmd);
 	exit (code);
 }
-
 void	make_exit(t_pipex *pipex, t_list **env)
 {
 	int	ex;
@@ -91,4 +86,23 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		free_param(pipex, env, ex);
 	else
 		free_param(pipex, env, 1);
+}
+
+int		is_build_in(char *str)
+{
+	if (ft_strncmp(str, "cd", 2) == 0)
+		return (1);
+	else if (ft_strncmp(str, "pwd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(str, "echo", 4) == 0)
+		return (1);
+	else if (ft_strncmp(str, "export", 6) == 0)
+		return (1);
+	else if (ft_strncmp(str, "unset", 5) == 0)
+		return (1);
+	else if (ft_strncmp(str, "env", 3) == 0)
+		return (1);
+	else if (ft_strncmp(str, "exit", 4) == 0)
+		return (1);
+	return (0);
 }

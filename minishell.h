@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/06 14:28:09 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 03:05:56 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ typedef struct s_var
 void		del_token(void *to_del);
 void		ft_open(t_token *token_list);
 char		*get_next_line(int fd);
-void		is_build_in(char **cmd, t_list **env);
+int			make_build_in(char **cmd, t_list **env, t_pipex *pipex);
+int			is_build_in(char *str);
 void		*get_env(t_list **lst, char **env);
 char		*get_var(char *cmp, t_list *env);
 void		get_input(t_list **my_env);
@@ -74,8 +75,8 @@ int			check_input(char *input, t_list **my_env, int status);
 int			exec_line(t_list *token_lst, t_list **my_env);
 char		**get_cmd(t_list *token_lst);
 void		change_var(t_list *env, char *var_to_change, char *change);
-void		make_cd(char **cmd, t_list *env);
-void		make_pwd(char **cmd);
+int			make_cd(char **cmd, t_list *env);
+int			make_pwd(char **cmd);
 void		make_exit(t_pipex	*pipex, t_list **env);
 void		simple_del(void *del);
 void		free_tab(char **cmd);

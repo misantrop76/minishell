@@ -6,27 +6,22 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:10:59 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/06 13:02:43 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 03:39:34 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	make_export(char **cmd, t_list **env)
+int	make_export(char **cmd, t_list **env)
 {
 	int		i;
 	char	c;
 
-	if (!cmd[1] || cmd[2])
-	{
-		ft_putstr_fd("export : wrong number of arguments\n", 2);
-		exit(1);
-	}
 	i = 0;
 	while (cmd[1][i] && cmd[1][i] != '=')
 		i++;
 	if (i == 0 || !cmd[1][i])
-		exit(1);
+		return (0);
 	c = cmd[1][i];
 	cmd[1][i] = '\0';
 	if (get_var(cmd[1], *env) == NULL)
@@ -36,29 +31,31 @@ void	make_export(char **cmd, t_list **env)
 	}
 	else
 		change_var(*env, cmd[1], cmd[1] + i + 1);
-	exit(0);
+	return (0);
 }
 
-void	make_env(char **cmd, t_list *env)
+int	make_env(char **cmd, t_list *env)
 {
 	t_list	*tmp;
 
 	if (cmd[1])
 	{
 		ft_putstr_fd("env : wrong number of arguments\n", 2);
-		exit(1);
+		return (1);
 	}
 	tmp = env;
 	while (tmp)
 	{
+		if (cmd[1] && ft_strncmp("export", cmd[1], 6) == 0)
+			ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(tmp->content, 1);
 		ft_putstr_fd("\n", 1);
 		tmp = tmp->next;
 	}
-	exit(0);
+	return (0);
 }
 
-void	make_unset(char **cmd, t_list **env)
+int	make_unset(char **cmd, t_list **env)
 {
 	t_list	*tmp;
 	t_list	*to_del;
@@ -67,7 +64,7 @@ void	make_unset(char **cmd, t_list **env)
 	to_del = *env;
 	tmp = *env;
 	if (!cmd[1] || get_var(cmd[1], *env) == NULL)
-		return ;
+		return (0);
 	cmp = ft_strjoin(cmd[1], "=");
 	while (to_del && ft_strncmp(cmp, to_del->content, ft_strlen(cmp)))
 		to_del = to_del->next;
@@ -82,10 +79,10 @@ void	make_unset(char **cmd, t_list **env)
 	}
 	free(to_del->content);
 	free(to_del);
-	exit (0);
+	return (0);
 }
 
-void	make_echo(char **cmd)
+int	make_echo(char **cmd)
 {
 	int	i;
 	int	flag;
@@ -105,22 +102,24 @@ void	make_echo(char **cmd)
 	}
 	if (!flag)
 		ft_putstr_fd("\n", 1);
-	exit(0);
+	return (0);
 }
 
-void	is_build_in(char **cmd, t_list **env)
+int	make_build_in(char **cmd, t_list **env, t_pipex *pipex)
 {
-	(void)env;
 	if (ft_strncmp(cmd[0], "cd", 2) == 0)
-		make_cd(cmd, *env);
+		return (make_cd(cmd, *env));
 	else if (ft_strncmp(cmd[0], "pwd", 3) == 0)
-		make_pwd(cmd);
+		return(make_pwd(cmd));
 	else if (ft_strncmp(cmd[0], "echo", 4) == 0)
-		make_echo(cmd);
+		return (make_echo(cmd));
 	else if (ft_strncmp(cmd[0], "export", 6) == 0)
-		make_export(cmd, env);
+		return (make_export(cmd, env));
 	else if (ft_strncmp(cmd[0], "unset", 5) == 0)
-		make_unset(cmd, env);
+		return (make_unset(cmd, env));
 	else if (ft_strncmp(cmd[0], "env", 3) == 0)
-		make_env(cmd, *env);
+		return (make_env(cmd, *env));
+	else if (ft_strncmp(cmd[0], "exit", 4) == 0)
+		make_exit(pipex, env);
+	return (0);
 }
