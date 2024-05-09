@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 00:20:11 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/06 14:09:01 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:16:58 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,20 +95,6 @@ void	free_tab(char **cmd)
 	free(cmd);
 }
 
-void	print_token(t_list *token_lst)
-{
-	t_list	*tmp;
-	t_token	*token;
-
-	tmp = token_lst;
-	while (tmp)
-	{
-		token = (t_token *)tmp->content;
-		printf("type = %s		value = %s\n", token->type, token->value);
-		tmp = tmp->next;
-	}
-}
-
 int	parse_token(t_list *token_lst, t_list **my_env)
 {
 	int	status;
@@ -119,7 +105,6 @@ int	parse_token(t_list *token_lst, t_list **my_env)
 	if (status)
 		return (status);
 	parse_redirection(token_lst);
-	//print_token(token_lst);
 	status = exec_line(token_lst, my_env);
 	return (status);
 }

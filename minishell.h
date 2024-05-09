@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/09 03:05:56 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:15:26 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_pipex
 	t_list	*token_lst;
 	t_token	*token;
 	int		status;
-	int		last_pid;
+	int		*pid;
 	int		old_stdout;
 	int		old_stdin;
 	char	**cmd;
@@ -77,7 +77,7 @@ char		**get_cmd(t_list *token_lst);
 void		change_var(t_list *env, char *var_to_change, char *change);
 int			make_cd(char **cmd, t_list *env);
 int			make_pwd(char **cmd);
-void		make_exit(t_pipex	*pipex, t_list **env);
+void		make_exit(t_pipex *pipex, t_list **env);
 void		simple_del(void *del);
 void		free_tab(char **cmd);
 

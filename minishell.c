@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:32:42 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/07 13:40:15 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:45:21 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int ac, char **av, char **env)
 	my_env = NULL;
 	get_env(&my_env, env);
 	get_input(&my_env);
+	ft_putstr_fd("\n", 1);
 	ft_lstclear(&my_env, simple_del);
 }

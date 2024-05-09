@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/09 03:40:12 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:16:35 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	make_pwd(char **cmd)
 		ft_putstr_fd(buf, 1);
 		ft_putstr_fd("\n", 1);
 	}
-	return(0);
+	return (0);
 }
 
 void	free_param(t_pipex *pipex, t_list **env, int code)
@@ -58,8 +58,9 @@ void	free_param(t_pipex *pipex, t_list **env, int code)
 	ft_lstclear(env, simple_del);
 	ft_lstclear(&pipex->token_lst, del_token);
 	free_tab(pipex->cmd);
-	exit (code);
+	exit(code);
 }
+
 void	make_exit(t_pipex *pipex, t_list **env)
 {
 	int	ex;
@@ -88,7 +89,7 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		free_param(pipex, env, 1);
 }
 
-int		is_build_in(char *str)
+int	is_build_in(char *str)
 {
 	if (ft_strncmp(str, "cd", 2) == 0)
 		return (1);

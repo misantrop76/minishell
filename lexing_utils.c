@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:42:30 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/25 12:57:41 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:55:21 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ char	*var_to_get(char *input, int *i, t_list *env, int status)
 	int		j;
 
 	*i += 1;
+	if (!ft_isalpha(input[*i]) && input[*i] != '?')
+	{
+		while (!ft_isalpha(input[*i]) && input[*i] != '?')
+			*i += 1;
+		return (ft_strdup(""));
+	}
 	j = 0;
 	str = malloc(sizeof(char) * (ft_strlen(input + *i) + 1));
 	while (input[*i] && ft_isalnum(input[*i]))

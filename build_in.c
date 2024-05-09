@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:10:59 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/09 03:39:34 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:15:38 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	make_build_in(char **cmd, t_list **env, t_pipex *pipex)
 	if (ft_strncmp(cmd[0], "cd", 2) == 0)
 		return (make_cd(cmd, *env));
 	else if (ft_strncmp(cmd[0], "pwd", 3) == 0)
-		return(make_pwd(cmd));
+		return (make_pwd(cmd));
 	else if (ft_strncmp(cmd[0], "echo", 4) == 0)
 		return (make_echo(cmd));
 	else if (ft_strncmp(cmd[0], "export", 6) == 0)
