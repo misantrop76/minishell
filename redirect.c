@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:19:09 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/09 15:16:06 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 21:44:52 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	redirection_out(char *output)
 {
 	int	fd_output;
 
-	fd_output = open(output, O_CREAT | O_RDWR | O_TRUNC, 00664);
+	fd_output = open(output, O_CREAT | O_WRONLY | O_TRUNC, 00664);
 	if (fd_output == -1)
 	{
 		ft_putstr_fd("permission denied : ", 1);

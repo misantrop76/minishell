@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/09 15:55:49 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/09 21:44:30 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	check_cmd(t_pipex *pipex, t_list **my_env, int i, t_list **pid_lst)
 
 void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 {
-	while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4))
+	while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
 	{
 		if (ft_strncmp(pipex->token->type, "WORD", 4))
 			ft_open(pipex->token);
@@ -155,6 +155,7 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 	pipex.token_lst = token_lst;
 	while (pipex.tmp)
 	{
+		pipex.token = pipex.tmp->content;
 		pipex.cmd = get_cmd(pipex.tmp);
 		parse_line(&pipex, my_env, &pid_lst);
 		if (pipex.tmp && ft_strncmp(pipex.token->type, "PIPE", 4) == 0)
