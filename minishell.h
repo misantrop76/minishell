@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/09 21:44:20 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/10 15:38:24 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ typedef struct s_pipex
 	char	**cmd;
 }			t_pipex;
 
+struct SharedData {
+    int *status; 
+};
+
 typedef struct s_var
 {
 	int		status;
@@ -58,7 +62,7 @@ typedef struct s_var
 }			t_var;
 
 void		del_token(void *to_del);
-void		ft_open(t_token *token_list);
+int			ft_open(t_token *token_list);
 char		*get_next_line(int fd);
 int			make_build_in(char **cmd, t_list **env, t_pipex *pipex);
 int			is_build_in(char *str);
@@ -80,5 +84,7 @@ int			make_pwd(char **cmd);
 void		make_exit(t_pipex *pipex, t_list **env);
 void		simple_del(void *del);
 void		free_tab(char **cmd);
+int			make_unset(char **cmd, t_list **env);
+int	make_export(char **cmd, t_list **env);
 
 #endif

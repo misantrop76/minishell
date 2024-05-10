@@ -6,14 +6,14 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:19:09 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/09 21:44:52 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/10 15:23:05 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // > out
-void	redirection_out(char *output)
+int	redirection_out(char *output)
 {
 	int	fd_output;
 
@@ -23,15 +23,16 @@ void	redirection_out(char *output)
 		ft_putstr_fd("permission denied : ", 1);
 		ft_putstr_fd(output, 1);
 		ft_putstr_fd("\n", 1);
-		exit(1);
+		return (1);
 	}
 	if (dup2(fd_output, STDOUT_FILENO) == -1)
-		exit(1);
+		return (1);
 	close(fd_output);
+	return (0);
 }
 
 // >> out a
-void	redirection_out_append(char *output)
+int	redirection_out_append(char *output)
 {
 	int	fd_output;
 
@@ -41,15 +42,16 @@ void	redirection_out_append(char *output)
 		ft_putstr_fd("permission denied : ", 1);
 		ft_putstr_fd(output, 1);
 		ft_putstr_fd("\n", 1);
-		exit(1);
+		return (1);
 	}
 	if (dup2(fd_output, STDOUT_FILENO) == -1)
-		exit(1);
+		return (1);
 	close(fd_output);
+	return (0);
 }
 
 // < input
-void	redirection_input(char *input)
+int	redirection_input(char *input)
 {
 	int	fd_input;
 
@@ -57,18 +59,21 @@ void	redirection_input(char *input)
 		fd_input = open(input, O_RDONLY, 00664);
 	else
 	{
-		ft_putstr_fd("permission denied : ", 1);
-		ft_putstr_fd(input, 1);
+		ft_putstr_fd("permission denied : ", 2);
+		ft_putstr_fd(input, 2);
+		ft_putstr_fd("\n", 2);
 		fd_input = open("/dev/null", O_RDONLY, 00664);
-		exit(1);
+		dup2(fd_input, STDIN_FILENO);
+		return (1);
 	}
 	if (dup2(fd_input, STDIN_FILENO) == -1)
-		exit(1);
+		return (1);
 	close(fd_input);
+	return (0);
 }
 
 // << heredoc
-void	heredoc(char *limit)
+int	heredoc(char *limit)
 {
 	pid_t	pid;
 	int		p_fd[2];
@@ -86,11 +91,11 @@ void	heredoc(char *limit)
 		{
 			buf = readline("\001\e[00;96m\002>\001\e[0m\002");
 			if (!buf)
-				break ;
+				exit (0);
 			if (strncmp(buf, limit, (strlen(buf) + 1)) == 0)
 			{
 				free(buf);
-				break ;
+				exit(0);
 			}
 			if (write(p_fd[1], buf, strlen(buf) + 1) == -1)
 				exit(1);
@@ -98,7 +103,7 @@ void	heredoc(char *limit)
 			free(buf);
 		}
 		close(p_fd[1]);
-		exit(1);
+		exit(0);
 	}
 	else
 	{
@@ -107,16 +112,18 @@ void	heredoc(char *limit)
 		close(p_fd[0]);
 		wait(NULL);
 	}
+	return (0);
 }
 
-void	ft_open(t_token *token)
+int		ft_open(t_token *token)
 {
 	if (ft_strncmp(token->type, "STDOUT_A", 8) == 0)
-		redirection_out_append(token->value);
+		return (redirection_out_append(token->value));
 	else if (ft_strncmp(token->type, "STDOUT", 6) == 0)
-		redirection_out(token->value);
+		return (redirection_out(token->value));
 	else if (ft_strncmp(token->type, "STDIN", 5) == 0)
-		redirection_input(token->value);
+		return (redirection_input(token->value));
 	else if (ft_strncmp(token->type, "READ", 4) == 0)
-		heredoc(token->value);
+		return (heredoc(token->value));
+	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/09 21:44:30 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/10 15:17:31 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **make_env_char(t_list *env)
+char	**make_env_char(t_list *env)
 {
 	char	**new_env;
 	t_list	*tmp;
@@ -32,7 +32,7 @@ char **make_env_char(t_list *env)
 			free(shlvl);
 		}
 		else
-			new_env[i] = ft_strdup(tmp->content);		
+			new_env[i] = ft_strdup(tmp->content);
 		tmp = tmp->next;
 		i++;
 	}
@@ -124,8 +124,17 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 {
 	while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
 	{
-		if (ft_strncmp(pipex->token->type, "WORD", 4))
-			ft_open(pipex->token);
+		if (ft_strncmp(pipex->token->type, "WORD", 4) && ft_open(pipex->token))
+		{
+			pipex->status = 1;
+			while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
+			{
+				pipex->tmp = pipex->tmp->next;
+				if (pipex->tmp)
+					pipex->token = pipex->tmp->content;
+			}
+			return;
+		}
 		pipex->tmp = pipex->tmp->next;
 		if (pipex->tmp)
 			pipex->token = pipex->tmp->content;
@@ -149,7 +158,7 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 
 	pid_lst = NULL;
 	pipex.tmp = token_lst;
-	pipex.status = 130 << 8;
+	pipex.status = 0;
 	pipex.old_stdout = dup(STDOUT_FILENO);
 	pipex.old_stdin = dup(STDIN_FILENO);
 	pipex.token_lst = token_lst;
@@ -159,7 +168,10 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 		pipex.cmd = get_cmd(pipex.tmp);
 		parse_line(&pipex, my_env, &pid_lst);
 		if (pipex.tmp && ft_strncmp(pipex.token->type, "PIPE", 4) == 0)
+		{
+			pipex.status = 0;
 			pipex.tmp = pipex.tmp->next;
+		}
 	}
 	tmp = pid_lst;
 	while (tmp)
@@ -167,9 +179,10 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 		i = tmp->content;
 		waitpid(*i, &pipex.status, 0);
 		tmp = tmp->next;
+		pipex.status = pipex.status >> 8;
 	}
 	ft_lstclear(&pid_lst, simple_del);
 	dup2(pipex.old_stdout, STDOUT_FILENO);
 	dup2(pipex.old_stdin, STDIN_FILENO);
-	return (pipex.status >> 8);
+	return (pipex.status);
 }

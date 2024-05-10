@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/09 16:20:04 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/10 15:43:22 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ void	handler_ignor(int sig)
 	ft_putstr_fd("\n", 1);
 }
 
-void	handler(int sig)
+void	handler(int sig, siginfo_t *info, void *ptr)
 {
+	struct SharedData *s = (struct SheredData *)info->info->si_value.sival_ptr;
 	(void)sig;
+	*(s->status) = 130;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -58,12 +60,16 @@ void	get_input(t_list **my_env)
 	int					status;
 	char				*tmp;
 	struct sigaction	sa;
+    struct SharedData	shared_data;
 
 	sa.sa_handler = &handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
+	sa.sa_flags |= SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
+	
 	status = 0;
+	shared_data.status = &status;
 	tmp = print_prompt(status);
 	input = NULL;
 	input = readline(tmp);
