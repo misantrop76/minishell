@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 20:00:11 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:50:06 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_var
 }			t_var;
 
 void		del_token(void *to_del);
-int			ft_open(t_token *token_list);
+int			ft_open(t_token *token_list, t_pipex *pipex);
 char		*get_next_line(int fd);
 int			make_build_in(char **cmd, t_list **env, t_pipex *pipex);
 int			is_build_in(char *str);
@@ -86,5 +86,6 @@ int			make_export(char **cmd, t_list **env);
 char		**make_env_char(t_list *env);
 int			is_pipe(t_list *token_lst);
 void		unknown_command(t_pipex *pipex, char **path, t_list **env, char **my_env);
+int			heredoc(char *limit);
 
 #endif

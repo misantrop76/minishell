@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:19:09 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/13 13:44:25 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:50:22 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,51 +72,10 @@ int	redirection_input(char *input)
 	return (0);
 }
 
-// << heredoc
-int	heredoc(char *limit)
+int	ft_open(t_token *token, t_pipex *pipex)
 {
-	pid_t	pid;
-	int		p_fd[2];
-	char	*buf;
-
-	if (pipe(p_fd) == -1)
-		exit(1);
-	pid = fork();
-	if (pid == -1)
-		exit(1);
-	if (pid == 0)
-	{
-		close(p_fd[0]);
-		while (1)
-		{
-			buf = readline("\001\e[00;96m\002>\001\e[0m\002");
-			if (!buf)
-				exit(0);
-			if (strncmp(buf, limit, (strlen(buf) + 1)) == 0)
-			{
-				free(buf);
-				exit(0);
-			}
-			if (write(p_fd[1], buf, strlen(buf)) == -1)
-				exit(1);
-			write(p_fd[1], "\n", 1);
-			free(buf);
-		}
-		close(p_fd[1]);
-		exit(0);
-	}
-	else
-	{
-		close(p_fd[1]);
-		dup2(p_fd[0], STDIN_FILENO);
-		close(p_fd[0]);
-		wait(NULL);
-	}
-	return (0);
-}
-
-int	ft_open(t_token *token)
-{
+	if (ft_strncmp(token->type, "STDIN", 5) == 0 || ft_strncmp(token->type, "READ", 4) == 0)
+		dup2(pipex->old_stdin, STDIN_FILENO);
 	if (ft_strncmp(token->type, "STDOUT_A", 8) == 0)
 		return (redirection_out_append(token->value));
 	else if (ft_strncmp(token->type, "STDOUT", 6) == 0)

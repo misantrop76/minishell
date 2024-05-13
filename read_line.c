@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 13:48:31 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:30:47 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,23 @@ void	handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+void handle_signal(int *status, t_list **my_env, char *input, struct sigaction sa)
+{
+	if (g_sig_check)
+	{
+		g_sig_check = 0;
+		*status = 130;
+	}
+	if (ft_strlen(input))
+	{
+		sa.sa_handler = &handler_ignor;
+		sigaction(SIGINT, &sa, NULL);
+		add_history(input);
+		*status = check_input(input, my_env, *status);
+		sa.sa_handler = &handler;
+		sigaction(SIGINT, &sa, NULL);
+	}
+}
 
 void	get_input(t_list **my_env)
 {
@@ -71,20 +88,7 @@ void	get_input(t_list **my_env)
 	free(tmp);
 	while (input != NULL)
 	{
-		if (g_sig_check)
-		{
-			g_sig_check = 0;
-			status = 130;
-		}
-		if (ft_strlen(input))
-		{
-			sa.sa_handler = &handler_ignor;
-			sigaction(SIGINT, &sa, NULL);
-			add_history(input);
-			status = check_input(input, my_env, status);
-			sa.sa_handler = &handler;
-			sigaction(SIGINT, &sa, NULL);
-		}
+		handle_signal(&status, my_env, input, sa);
 		free(input);
 		tmp = print_prompt(status);
 		input = readline(tmp);
