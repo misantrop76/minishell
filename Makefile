@@ -6,10 +6,9 @@
 #    By: mminet <mminet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 23:37:52 by mminet            #+#    #+#              #
-#    Updated: 2024/05/10 13:32:35 by mminet           ###   ########.fr        #
+#    Updated: 2024/05/13 17:12:55 by mminet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 SRCS_L =	libft/ft_atoi.c\
 			libft/ft_bzero.c\

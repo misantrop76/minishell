@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/13 16:30:39 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/13 17:19:16 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ void	exec_cmd(char **cmd, t_list **env, t_pipex *pipex)
 
 	newpath = NULL;
 	i = 0;
-	my_env = make_env_char(*env);
 	if (is_build_in(cmd[0]))
 		exit(make_build_in(cmd, env, pipex));
 	if (get_var("PATH", *env))
 		path = ft_split(get_var("PATH", *env), ':');
 	else
 		path = ft_split("/bin:/sbin", ':');
+	my_env = make_env_char(*env);
 	execve(cmd[0], cmd, my_env);
 	while (path[i])
 	{
@@ -90,6 +90,9 @@ void	exec_cmd(char **cmd, t_list **env, t_pipex *pipex)
 	ft_putstr_fd("\n", 2);
 	free_tab(path);
 	free_tab(pipex->cmd);
+	free_tab(my_env);
+	ft_lstclear(env, simple_del);
+	ft_lstclear(pipex->token_lst, del_token);
 	rl_clear_history();
 	exit(127);
 }
@@ -142,7 +145,7 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 		if (pipex->tmp)
 			pipex->token = pipex->tmp->content;
 	}
-	if (pipex->cmd && !is_pipe(pipex->token_lst) && is_build_in(pipex->cmd[0]))
+	if (pipex->cmd && !is_pipe(*pipex->token_lst) && is_build_in(pipex->cmd[0]))
 		pipex->status = make_build_in(pipex->cmd, my_env, pipex);
 	else if (pipex->tmp && pipex->cmd)
 		check_cmd(pipex, my_env, 1, pid_lst);
@@ -152,7 +155,7 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 		free_tab(pipex->cmd);
 }
 
-int	exec_line(t_list *token_lst, t_list **my_env)
+int	exec_line(t_list **token_lst, t_list **my_env)
 {
 	t_pipex	pipex;
 	t_list	*pid_lst;
@@ -160,7 +163,7 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 	int		*i;
 
 	pid_lst = NULL;
-	pipex.tmp = token_lst;
+	pipex.tmp = *token_lst;
 	pipex.status = 0;
 	pipex.old_stdin = dup(STDIN_FILENO);
 	pipex.old_stdout = dup(STDOUT_FILENO);

@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 00:20:11 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/09 15:16:58 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:18:40 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,16 @@ void	free_tab(char **cmd)
 	free(cmd);
 }
 
-int	parse_token(t_list *token_lst, t_list **my_env)
+int	parse_token(t_list **token_lst, t_list **my_env)
 {
 	int	status;
 
 	if (!token_lst)
 		return (0);
-	status = check_error(token_lst);
+	status = check_error(*token_lst);
 	if (status)
 		return (status);
-	parse_redirection(token_lst);
+	parse_redirection(*token_lst);
 	status = exec_line(token_lst, my_env);
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/09 15:16:35 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:20:09 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	make_pwd(char **cmd)
 void	free_param(t_pipex *pipex, t_list **env, int code)
 {
 	ft_lstclear(env, simple_del);
-	ft_lstclear(&pipex->token_lst, del_token);
+	ft_lstclear(pipex->token_lst, del_token);
 	free_tab(pipex->cmd);
 	exit(code);
 }

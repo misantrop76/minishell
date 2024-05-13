@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 13:22:43 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:18:04 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_token
 typedef struct s_pipex
 {
 	t_list	*tmp;
-	t_list	*token_lst;
+	t_list	**token_lst;
 	t_token	*token;
 	int		status;
 	int		*pid;
@@ -68,11 +68,11 @@ void		get_input(t_list **my_env);
 void		check_var(t_var *var, t_list *env, int *i, char *input);
 t_token		*mk_token(char *type, char *value);
 void		check_quote(char c, t_var *var, int *i);
-int			parse_token(t_list *token, t_list **my_env);
+int			parse_token(t_list **token, t_list **my_env);
 int			is_operator(char *str);
 int			check_error(t_list *lst_token);
 int			check_input(char *input, t_list **my_env, int status);
-int			exec_line(t_list *token_lst, t_list **my_env);
+int			exec_line(t_list **token_lst, t_list **my_env);
 char		**get_cmd(t_list *token_lst);
 void		change_var(t_list *env, char *var_to_change, char *change);
 int			make_cd(char **cmd, t_list *env);
