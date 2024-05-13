@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 17:18:04 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:00:11 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_pipex
 {
 	t_list	*tmp;
 	t_list	**token_lst;
+	t_list	*pid_lst;
 	t_token	*token;
 	int		status;
 	int		*pid;
@@ -82,5 +83,8 @@ void		simple_del(void *del);
 void		free_tab(char **cmd);
 int			make_unset(char **cmd, t_list **env);
 int			make_export(char **cmd, t_list **env);
+char		**make_env_char(t_list *env);
+int			is_pipe(t_list *token_lst);
+void		unknown_command(t_pipex *pipex, char **path, t_list **env, char **my_env);
 
 #endif

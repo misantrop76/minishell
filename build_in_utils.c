@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 17:20:09 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 21:02:10 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	free_param(t_pipex *pipex, t_list **env, int code)
 	ft_lstclear(env, simple_del);
 	ft_lstclear(pipex->token_lst, del_token);
 	free_tab(pipex->cmd);
+	if (code == 0)
+		ft_putstr_fd("exit\n", 1);
 	exit(code);
 }
 
@@ -67,18 +69,19 @@ void	make_exit(t_pipex *pipex, t_list **env)
 	int	i;
 
 	i = 0;
+	ft_putstr_fd("exit\n", 1);
 	if (!pipex->cmd[1])
 		free_param(pipex, env, 0);
 	if (pipex->cmd[1] && pipex->cmd[2])
 	{
-		ft_putstr_fd("Exit: too many arguments\n", 1);
+		ft_putstr_fd("exit: too many arguments\n", 1);
 		free_param(pipex, env, 1);
 	}
 	while (pipex->cmd[1] && pipex->cmd[1][i])
 	{
 		if (!ft_isdigit(pipex->cmd[1][i++]))
 		{
-			ft_putstr_fd("Exit: numeric argument required\n", 1);
+			ft_putstr_fd("exit: numeric argument required\n", 1);
 			free_param(pipex, env, 1);
 		}
 	}

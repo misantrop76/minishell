@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:42:30 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/10 15:13:21 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:32:04 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,34 @@ void	check_quote(char c, t_var *var, int *i)
 	}
 }
 
+char	*var_name(char *input, int *i)
+{
+	char	*str;
+	int j;
+	
+	j = 0;
+	str = malloc(sizeof(char) * (ft_strlen(input + *i) + 1));
+	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
+	{
+		str[j++] = input[*i];
+		*i += 1;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
 char	*var_to_get(char *input, int *i, t_list *env, int status)
 {
 	char	*str;
 	char	*var;
-	int		j;
 
 	*i += 1;
-	if (!ft_isalpha(input[*i]) && input[*i] != '?')
+	if (!ft_isalpha(input[*i]) && input[*i] != '_' && input[*i] != '?')
 	{
 		*i += 1;
 		return (ft_strdup(""));
 	}
-	j = 0;
-	str = malloc(sizeof(char) * (ft_strlen(input + *i) + 1));
-	while (input[*i] && ft_isalnum(input[*i]))
-	{
-		str[j] = input[*i];
-		j++;
-		*i += 1;
-	}
-	str[j] = '\0';
+	str = var_name(input, i);
 	var = NULL;
 	if (ft_strlen(str) == 0 && input[*i] == '?')
 	{

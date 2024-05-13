@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:10:59 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 13:45:12 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:07:16 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	make_env(char **cmd, t_list *env)
 	tmp = env;
 	while (tmp)
 	{
-		if (cmd[1] && ft_strncmp("export", cmd[1], 6) == 0)
+		if (ft_strncmp("export", cmd[0], 6) == 0)
 			ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(tmp->content, 1);
 		ft_putstr_fd("\n", 1);
@@ -64,12 +64,12 @@ int	make_build_in(char **cmd, t_list **env, t_pipex *pipex)
 		return (make_pwd(cmd));
 	else if (ft_strncmp(cmd[0], "echo", 4) == 0)
 		return (make_echo(cmd));
+	else if (ft_strncmp(cmd[0], "env", 3) == 0 || (ft_strncmp(cmd[0], "export", 6) == 0 && !cmd[1]))
+		return (make_env(cmd, *env));
 	else if (ft_strncmp(cmd[0], "export", 6) == 0)
 		return (make_export(cmd, env));
 	else if (ft_strncmp(cmd[0], "unset", 5) == 0)
 		return (make_unset(cmd, env));
-	else if (ft_strncmp(cmd[0], "env", 3) == 0)
-		return (make_env(cmd, *env));
 	else if (ft_strncmp(cmd[0], "exit", 4) == 0)
 		make_exit(pipex, env);
 	return (0);

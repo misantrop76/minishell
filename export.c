@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:10:01 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/10 14:26:28 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 20:03:35 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	make_export(char **cmd, t_list **env)
 	int	status;
 
 	i = 1;
-	if (!cmd[1])
-		return (0);
 	status = 0;
 	while (cmd[i])
 	{
