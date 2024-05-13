@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/13 13:49:31 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 15:26:13 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void	exec_cmd(char **cmd, t_list **env, t_pipex *pipex)
 	ft_putstr_fd(cmd[0], 2);
 	ft_putstr_fd("\n", 2);
 	free_tab(path);
-	free_tab(cmd);
-	free_tab(my_env);
+	free_tab(pipex->cmd);
+	rl_clear_history();
 	exit(127);
 }
 
@@ -162,8 +162,10 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 	pid_lst = NULL;
 	pipex.tmp = token_lst;
 	pipex.status = 0;
-	pipex.old_stdout = dup(STDOUT_FILENO);
 	pipex.old_stdin = dup(STDIN_FILENO);
+	pipex.old_stdout = dup(STDOUT_FILENO);
+	close (0);
+	close (1);
 	pipex.token_lst = token_lst;
 	while (pipex.tmp)
 	{
@@ -192,5 +194,7 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 	ft_lstclear(&pid_lst, simple_del);
 	dup2(pipex.old_stdout, STDOUT_FILENO);
 	dup2(pipex.old_stdin, STDIN_FILENO);
+	close (pipex.old_stdin);
+	close (pipex.old_stdout);
 	return (pipex.status);
 }
