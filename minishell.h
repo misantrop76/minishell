@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/10 15:38:24 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:03:47 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 #  define BUFFER_SIZE 1
 # endif
 
+
+
 typedef struct s_token
 {
 	char	*type;
@@ -45,10 +47,6 @@ typedef struct s_pipex
 	int		old_stdin;
 	char	**cmd;
 }			t_pipex;
-
-struct SharedData {
-    int *status; 
-};
 
 typedef struct s_var
 {
