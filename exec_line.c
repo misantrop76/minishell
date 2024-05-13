@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/13 15:26:13 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 16:30:39 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,6 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 	pipex.status = 0;
 	pipex.old_stdin = dup(STDIN_FILENO);
 	pipex.old_stdout = dup(STDOUT_FILENO);
-	close (0);
-	close (1);
 	pipex.token_lst = token_lst;
 	while (pipex.tmp)
 	{
