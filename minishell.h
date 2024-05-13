@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 13:03:47 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:22:43 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 # endif
-
-
 
 typedef struct s_token
 {
@@ -83,6 +81,6 @@ void		make_exit(t_pipex *pipex, t_list **env);
 void		simple_del(void *del);
 void		free_tab(char **cmd);
 int			make_unset(char **cmd, t_list **env);
-int	make_export(char **cmd, t_list **env);
+int			make_export(char **cmd, t_list **env);
 
 #endif

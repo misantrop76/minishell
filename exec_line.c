@@ -6,11 +6,13 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/13 12:56:12 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:24:04 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int sig_check;
 
 char	**make_env_char(t_list *env)
 {
@@ -180,6 +182,11 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 		waitpid(*i, &pipex.status, 0);
 		tmp = tmp->next;
 		pipex.status = pipex.status >> 8;
+	}
+	if (sig_check)
+	{
+		sig_check = 0;
+		pipex.status = 130;
 	}
 	ft_lstclear(&pid_lst, simple_del);
 	dup2(pipex.old_stdout, STDOUT_FILENO);

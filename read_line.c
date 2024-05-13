@@ -6,11 +6,13 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:20:23 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 13:05:38 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:29:46 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int sig_check = 0;
 
 char	*print_prompt(int status)
 {
@@ -37,12 +39,14 @@ char	*print_prompt(int status)
 void	handler_ignor(int sig)
 {
 	(void)sig;
+	sig_check = 1;
 	ft_putstr_fd("\n", 1);
 }
 
 void	handler(int sig)
 {
 	(void)sig;
+	sig_check = 1;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -68,6 +72,11 @@ void	get_input(t_list **my_env)
 	free(tmp);
 	while (input != NULL)
 	{
+		if (sig_check)
+		{
+			sig_check = 0;
+			status = 130;
+		}
 		if (ft_strlen(input))
 		{
 			sa.sa_handler = &handler_ignor;
