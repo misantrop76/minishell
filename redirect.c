@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:19:09 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/10 15:23:05 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:44:25 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ int	heredoc(char *limit)
 		{
 			buf = readline("\001\e[00;96m\002>\001\e[0m\002");
 			if (!buf)
-				exit (0);
+				exit(0);
 			if (strncmp(buf, limit, (strlen(buf) + 1)) == 0)
 			{
 				free(buf);
 				exit(0);
 			}
-			if (write(p_fd[1], buf, strlen(buf) + 1) == -1)
+			if (write(p_fd[1], buf, strlen(buf)) == -1)
 				exit(1);
 			write(p_fd[1], "\n", 1);
 			free(buf);
@@ -115,7 +115,7 @@ int	heredoc(char *limit)
 	return (0);
 }
 
-int		ft_open(t_token *token)
+int	ft_open(t_token *token)
 {
 	if (ft_strncmp(token->type, "STDOUT_A", 8) == 0)
 		return (redirection_out_append(token->value));

@@ -6,13 +6,13 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/13 13:24:04 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:49:31 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int sig_check;
+extern int	g_sig_check;
 
 char	**make_env_char(t_list *env)
 {
@@ -89,6 +89,7 @@ void	exec_cmd(char **cmd, t_list **env, t_pipex *pipex)
 	ft_putstr_fd(cmd[0], 2);
 	ft_putstr_fd("\n", 2);
 	free_tab(path);
+	free_tab(cmd);
 	free_tab(my_env);
 	exit(127);
 }
@@ -135,7 +136,7 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 				if (pipex->tmp)
 					pipex->token = pipex->tmp->content;
 			}
-			return;
+			return ;
 		}
 		pipex->tmp = pipex->tmp->next;
 		if (pipex->tmp)
@@ -183,9 +184,9 @@ int	exec_line(t_list *token_lst, t_list **my_env)
 		tmp = tmp->next;
 		pipex.status = pipex.status >> 8;
 	}
-	if (sig_check)
+	if (g_sig_check)
 	{
-		sig_check = 0;
+		g_sig_check = 0;
 		pipex.status = 130;
 	}
 	ft_lstclear(&pid_lst, simple_del);

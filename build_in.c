@@ -6,12 +6,11 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:10:59 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/10 13:32:08 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:45:12 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	make_env(char **cmd, t_list *env)
 {
