@@ -46,7 +46,7 @@ int	make_export(char **cmd, t_list **env)
 		while (ft_isalnum(cmd[i][j]) || cmd[i][j] == '_')
 			j++;
 		if ((ft_isalpha(cmd[i][0]) == 0 && cmd[i][0] != '_')
-			|| cmd[i][0] == '=')
+			|| cmd[i][0] == '=' || (cmd[i][j] && cmd[i][j] != '='))
 		{
 			ft_putstr_fd("export: '", 2);
 			ft_putstr_fd(cmd[i], 2);
