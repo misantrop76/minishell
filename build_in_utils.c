@@ -6,7 +6,7 @@
 /*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/14 13:36:28 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/14 15:06:11 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void	make_exit(t_pipex *pipex, t_list **env)
 	{
 		if (!ft_isdigit(pipex->cmd[1][i++]))
 		{
-			ft_putstr_fd("exit: numeric argument required\n", 1);
-			free_param(pipex, env, 1);
+			ft_putstr_fd("exit: numeric argument required\n", 2);
+			free_param(pipex, env, 2);
 		}
 	}
 	ex = ft_atoi(pipex->cmd[1]);

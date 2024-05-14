@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:57:55 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 20:50:17 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/14 15:07:30 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	unknown_command(t_pipex *pipex, char **path, t_list **env,
 	ft_putstr_fd(pipex->cmd[0], 1);
 	if (S_ISDIR(buf.st_mode))
 	{
-		ft_putstr_fd(": Is a directory\n", 1);
+		ft_putstr_fd(": Is a directory\n", 2);
 		status = 126;
 	}
 	else
-		ft_putstr_fd(": command not found\n", 1);
+		ft_putstr_fd(": command not found\n", 2);
 	free_struct(path, pipex, env, my_env);
 	exit(status);
 }
