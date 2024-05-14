@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 21:02:10 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/14 13:36:28 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	make_cd(char **cmd, t_list *env)
 	{
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
+		return (1);
 	}
 	free(str);
 	return (0);
@@ -74,7 +75,7 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		free_param(pipex, env, 0);
 	if (pipex->cmd[1] && pipex->cmd[2])
 	{
-		ft_putstr_fd("exit: too many arguments\n", 1);
+		ft_putstr_fd("exit: too many arguments\n", 2);
 		free_param(pipex, env, 1);
 	}
 	while (pipex->cmd[1] && pipex->cmd[1][i])
