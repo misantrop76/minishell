@@ -23,6 +23,8 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
+#include <sys/types.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

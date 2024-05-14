@@ -12,20 +12,34 @@
 
 #include "minishell.h"
 
-void	unknown_command(t_pipex *pipex, char **path, t_list **env,
-		char **my_env)
+void	free_struct(char **path, t_pipex *pipex, t_list **env, char **my_env)
 {
-	ft_putstr_fd("command not found: ", 2);
-	if (pipex->cmd[0])
-		ft_putstr_fd(pipex->cmd[0], 2);
-	ft_putstr_fd("\n", 2);
 	free_tab(path);
 	free_tab(pipex->cmd);
 	free_tab(my_env);
 	ft_lstclear(env, simple_del);
 	ft_lstclear(pipex->token_lst, del_token);
 	rl_clear_history();
-	exit(127);
+}
+
+void	unknown_command(t_pipex *pipex, char **path, t_list **env,
+		char **my_env)
+{
+	int status;
+	struct stat buf;
+
+	status = 127;
+	stat(pipex->cmd[0], &buf);
+	ft_putstr_fd(pipex->cmd[0], 1);
+	if (S_ISDIR(buf.st_mode))
+	{
+		ft_putstr_fd(": Is a directory\n", 1);
+		status = 126;
+	}
+	else
+		ft_putstr_fd(": command not found\n", 1);
+	free_struct(path, pipex, env, my_env);
+	exit(status);
 }
 
 char	**make_env_char(t_list *env)
