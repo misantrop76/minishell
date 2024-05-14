@@ -46,14 +46,14 @@ int	make_export(char **cmd, t_list **env)
 		while (ft_isalnum(cmd[i][j]) || cmd[i][j] == '_')
 			j++;
 		if ((ft_isalpha(cmd[i][0]) == 0 && cmd[i][0] != '_')
-			|| cmd[i][j] != '=')
+			|| cmd[i][0] == '=')
 		{
-			ft_putstr_fd("export: ", 2);
+			ft_putstr_fd("export: '", 2);
 			ft_putstr_fd(cmd[i], 2);
-			ft_putstr_fd(": invalid parameter name\n", 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			status = 1;
 		}
-		else
+		else if (cmd[i][j] == '=')
 			export_var(cmd[i], env);
 		i++;
 	}
