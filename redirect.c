@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:19:09 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/13 21:50:22 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/14 13:23:11 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	redirection_out(char *output)
 	fd_output = open(output, O_CREAT | O_WRONLY | O_TRUNC, 00664);
 	if (fd_output == -1)
 	{
-		ft_putstr_fd("permission denied : ", 1);
-		ft_putstr_fd(output, 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("permission denied : ", 2);
+		ft_putstr_fd(output, 2);
+		ft_putstr_fd("\n", 2);
 		return (1);
 	}
 	if (dup2(fd_output, STDOUT_FILENO) == -1)
@@ -39,9 +39,9 @@ int	redirection_out_append(char *output)
 	fd_output = open(output, O_CREAT | O_RDWR | O_APPEND, 00664);
 	if (fd_output == -1)
 	{
-		ft_putstr_fd("permission denied : ", 1);
-		ft_putstr_fd(output, 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("permission denied : ", 2);
+		ft_putstr_fd(output, 2);
+		ft_putstr_fd("\n", 2);
 		return (1);
 	}
 	if (dup2(fd_output, STDOUT_FILENO) == -1)
