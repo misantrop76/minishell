@@ -76,7 +76,8 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 {
 	while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
 	{
-		if (ft_strncmp(pipex->token->type, "WORD", 4) && ft_open(pipex->token, pipex))
+		if (ft_strncmp(pipex->token->type, "WORD", 4) && ft_open(pipex->token,
+				pipex))
 		{
 			pipex->status = 1;
 			while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
@@ -97,13 +98,11 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 		check_cmd(pipex, my_env, 1, pid_lst);
 	else if (pipex->cmd)
 		check_cmd(pipex, my_env, 0, pid_lst);
-	if (pipex->cmd)
-		free_tab(pipex->cmd);
 }
 
-void my_close(t_pipex *pipex)
+void	my_close(t_pipex *pipex)
 {
-	t_list *tmp;
+	t_list	*tmp;
 	int		*i;
 
 	tmp = pipex->pid_lst;
@@ -122,8 +121,8 @@ void my_close(t_pipex *pipex)
 	ft_lstclear(&pipex->pid_lst, simple_del);
 	dup2(pipex->old_stdout, STDOUT_FILENO);
 	dup2(pipex->old_stdin, STDIN_FILENO);
-	close (pipex->old_stdin);
-	close (pipex->old_stdout);
+	close(pipex->old_stdin);
+	close(pipex->old_stdout);
 }
 
 int	exec_line(t_list **token_lst, t_list **my_env)
@@ -141,6 +140,8 @@ int	exec_line(t_list **token_lst, t_list **my_env)
 		pipex.token = pipex.tmp->content;
 		pipex.cmd = get_cmd(pipex.tmp);
 		parse_line(&pipex, my_env, &pipex.pid_lst);
+		if (pipex.cmd)
+			free_tab(pipex.cmd);
 		if (pipex.tmp && ft_strncmp(pipex.token->type, "PIPE", 4) == 0)
 		{
 			pipex.status = 0;

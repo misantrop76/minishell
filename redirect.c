@@ -74,7 +74,8 @@ int	redirection_input(char *input)
 
 int	ft_open(t_token *token, t_pipex *pipex)
 {
-	if (ft_strncmp(token->type, "STDIN", 5) == 0 || ft_strncmp(token->type, "READ", 4) == 0)
+	if (ft_strncmp(token->type, "STDIN", 5) == 0 || ft_strncmp(token->type,
+			"READ", 4) == 0)
 		dup2(pipex->old_stdin, STDIN_FILENO);
 	if (ft_strncmp(token->type, "STDOUT_A", 8) == 0)
 		return (redirection_out_append(token->value));

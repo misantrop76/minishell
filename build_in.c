@@ -64,7 +64,8 @@ int	make_build_in(char **cmd, t_list **env, t_pipex *pipex)
 		return (make_pwd(cmd));
 	else if (ft_strncmp(cmd[0], "echo", 4) == 0)
 		return (make_echo(cmd));
-	else if (ft_strncmp(cmd[0], "env", 3) == 0 || (ft_strncmp(cmd[0], "export", 6) == 0 && !cmd[1]))
+	else if (ft_strncmp(cmd[0], "env", 3) == 0 || (ft_strncmp(cmd[0], "export",
+				6) == 0 && !cmd[1]))
 		return (make_env(cmd, *env));
 	else if (ft_strncmp(cmd[0], "export", 6) == 0)
 		return (make_export(cmd, env));

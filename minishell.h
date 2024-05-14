@@ -85,7 +85,8 @@ int			make_unset(char **cmd, t_list **env);
 int			make_export(char **cmd, t_list **env);
 char		**make_env_char(t_list *env);
 int			is_pipe(t_list *token_lst);
-void		unknown_command(t_pipex *pipex, char **path, t_list **env, char **my_env);
+void		unknown_command(t_pipex *pipex, char **path, t_list **env,
+				char **my_env);
 int			heredoc(char *limit);
 
 #endif

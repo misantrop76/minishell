@@ -51,8 +51,8 @@ void	check_quote(char c, t_var *var, int *i)
 char	*var_name(char *input, int *i)
 {
 	char	*str;
-	int j;
-	
+	int		j;
+
 	j = 0;
 	str = malloc(sizeof(char) * (ft_strlen(input + *i) + 1));
 	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))

@@ -38,7 +38,7 @@ int	main(int ac, char **av, char **env)
 	get_input(&my_env);
 	ft_putstr_fd("exit\n", 1);
 	ft_lstclear(&my_env, simple_del);
-	close (1);
-	close (2);
-	close (0);
+	close(1);
+	close(2);
+	close(0);
 }

@@ -52,7 +52,9 @@ void	handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-void handle_signal(int *status, t_list **my_env, char *input, struct sigaction sa)
+
+void	handle_signal(int *status, t_list **my_env, char *input,
+		struct sigaction sa)
 {
 	if (g_sig_check)
 	{

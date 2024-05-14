@@ -41,8 +41,7 @@ int	heredoc(char *limit)
 		close(p_fd[1]);
 		dup2(p_fd[0], STDIN_FILENO);
 		close(p_fd[0]);
-		wait(NULL);
+		waitpid(pid, NULL, 0);
 	}
 	return (0);
 }
-

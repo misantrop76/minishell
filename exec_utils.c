@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-void unknown_command(t_pipex *pipex, char **path, t_list **env, char **my_env)
+void	unknown_command(t_pipex *pipex, char **path, t_list **env,
+		char **my_env)
 {
 	ft_putstr_fd("command not found: ", 2);
 	ft_putstr_fd(pipex->cmd[0], 2);
