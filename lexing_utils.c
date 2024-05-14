@@ -93,7 +93,7 @@ void	check_var(t_var *var, t_list *env, int *i, char *input)
 	char	tmp[2];
 
 	tmp[1] = '\0';
-	if (input[*i] == '$' && var->quote_s == 0)
+	if (input[*i] == '$' && var->quote_s == 0 && input[*i + 1] && input[*i + 1] != '"' && !isspace(input[*i +1]))
 	{
 		var->tmp = var->str;
 		var->var_to_get = var_to_get(input, i, env, var->status);
