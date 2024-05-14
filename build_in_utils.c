@@ -70,7 +70,6 @@ void	make_exit(t_pipex *pipex, t_list **env)
 	int	i;
 
 	i = 0;
-	ft_putstr_fd("exit\n", 1);
 	if (!pipex->cmd[1])
 		free_param(pipex, env, 0);
 	if (pipex->cmd[1] && pipex->cmd[2])
@@ -78,6 +77,10 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		ft_putstr_fd("exit: too many arguments\n", 2);
 		free_param(pipex, env, 1);
 	}
+	while (pipex->cmd[1][i] == ' ' || pipex->cmd[1][i] == '	')
+		i++;
+	if (pipex->cmd[1][i] == '+' || pipex->cmd[1][i] == '-')
+		i++;
 	while (pipex->cmd[1] && pipex->cmd[1][i])
 	{
 		if (!ft_isdigit(pipex->cmd[1][i++]))
@@ -87,6 +90,8 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		}
 	}
 	ex = ft_atoi(pipex->cmd[1]);
+	if (ex < 0)
+		ex += 256;
 	if (ex >= 0 && ex <= 255 && pipex->cmd)
 		free_param(pipex, env, ex);
 	else
