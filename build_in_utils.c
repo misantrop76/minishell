@@ -6,7 +6,7 @@
 /*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/14 15:06:11 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/14 15:39:22 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ void	free_param(t_pipex *pipex, t_list **env, int code)
 	ft_lstclear(env, simple_del);
 	ft_lstclear(pipex->token_lst, del_token);
 	free_tab(pipex->cmd);
+	if (code < 0)
+		code += 256;
+	if (code >= 0 && code > 255 && pipex->cmd)
+		code = code % 256;
 	if (code == 0)
 		ft_putstr_fd("exit\n", 1);
 	exit(code);
@@ -90,12 +94,7 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		}
 	}
 	ex = ft_atoi(pipex->cmd[1]);
-	if (ex < 0)
-		ex += 256;
-	if (ex >= 0 && ex <= 255 && pipex->cmd)
-		free_param(pipex, env, ex);
-	else
-		free_param(pipex, env, 1);
+	free_param(pipex, env, ex);
 }
 
 int	is_build_in(char *str)
