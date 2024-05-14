@@ -105,6 +105,10 @@ int	check_input(char *input, t_list **my_env, int status)
 		else
 			ft_lstadd_back(&token_lst, ft_lstnew(token));
 	}
+	if (!token_lst)
+		ft_putstr_fd("command not found: ''\n", 2);
+	if (!token_lst)
+		return (127);
 	status = parse_token(&token_lst, my_env);
 	ft_lstclear(&token_lst, del_token);
 	return (status);

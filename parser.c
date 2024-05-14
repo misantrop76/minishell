@@ -101,6 +101,7 @@ int	parse_token(t_list **token_lst, t_list **my_env)
 
 	if (!token_lst)
 		return (0);
+	printf("hey\n");
 	status = check_error(*token_lst);
 	if (status)
 		return (status);

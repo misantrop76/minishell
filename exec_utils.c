@@ -16,7 +16,8 @@ void	unknown_command(t_pipex *pipex, char **path, t_list **env,
 		char **my_env)
 {
 	ft_putstr_fd("command not found: ", 2);
-	ft_putstr_fd(pipex->cmd[0], 2);
+	if (pipex->cmd[0])
+		ft_putstr_fd(pipex->cmd[0], 2);
 	ft_putstr_fd("\n", 2);
 	free_tab(path);
 	free_tab(pipex->cmd);
