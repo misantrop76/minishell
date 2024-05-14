@@ -17,7 +17,7 @@ int	make_cd(char **cmd, t_list *env)
 	char	buf[100];
 	char	*str;
 
-	if (cmd[2] && cmd[3])
+	if (cmd[1] && cmd[2])
 	{
 		ft_putstr_fd("cd : wrong number of arguments\n", 2);
 		return (1);

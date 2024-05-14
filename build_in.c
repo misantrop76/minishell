@@ -48,8 +48,9 @@ int	make_echo(char **cmd)
 	while (cmd[i])
 	{
 		ft_putstr_fd(cmd[i], 1);
-		ft_putstr_fd(" ", 1);
 		i++;
+		if(cmd[i])
+			ft_putstr_fd(" ", 1);
 	}
 	if (!flag)
 		ft_putstr_fd("\n", 1);
