@@ -39,18 +39,18 @@ void	unknown_command(t_pipex *pipex, char **path, t_list **env,
 	if (pipex->cmd[0][i] && stat(pipex->cmd[0], &buf) == 0
 		&& S_ISDIR(buf.st_mode))
 	{
-		ft_putstr_fd(": est un dossier\n", 2);
+		ft_putstr_fd(": Is a directory\n", 2);
 		status = 126;
 	}
 	else if (!pipex->cmd[0][i])
-		ft_putstr_fd(" : commande introuvable\n", 2);
+		ft_putstr_fd(" : command not found\n", 2);
 	else if (access(pipex->cmd[0], X_OK) != 0 && errno == EACCES)
 	{
 		status = 126;
-		ft_putstr_fd(": Permission non accordée\n", 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 	}
 	else
-		ft_putstr_fd(": Aucun fichier ou dossier de ce nom\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 	free_struct(pipex, env, my_env);
 	free_tab(path);
 	exit(status);

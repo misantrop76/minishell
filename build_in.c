@@ -34,10 +34,10 @@ int	make_cd(char **cmd, t_list *env)
 	char	*str;
 
 	if (cmd[1] && cmd[2])
-		return (write(2, "cd : trop d'arguments\n", 23) - 22);
+		return (write(2, "cd : too many arguments\n", 23) - 22);
 	str = get_new_pwd(cmd[1], env);
 	if (!str)
-		return (write(2, "cd: « HOME » non défini\n", 30) - 29);
+		return (write(2, "cd: HOME not set\n", 30) - 29);
 	if (!chdir(str))
 	{
 		if (getcwd(buf, 99))
@@ -48,7 +48,7 @@ int	make_cd(char **cmd, t_list *env)
 	{
 		ft_putstr_fd("cd : ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": Aucun fichier ou dossier de ce nom\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		free(str);
 		return (1);
 	}
@@ -61,7 +61,7 @@ int	make_env(char **cmd, t_list *env)
 
 	if (cmd[1])
 	{
-		ft_putstr_fd("env : wrong number of arguments\n", 2);
+		ft_putstr_fd("env : too many arguments\n", 2);
 		return (1);
 	}
 	tmp = env;

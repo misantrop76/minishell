@@ -50,7 +50,7 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		free_param(pipex, env, 0);
 	if (pipex->cmd[1] && pipex->cmd[2])
 	{
-		ft_putstr_fd("exit: trop d'arguments\n", 2);
+		ft_putstr_fd("exit: too many arguments\n", 2);
 		free_param(pipex, env, 1);
 	}
 	while (pipex->cmd[1][i] == ' ' || pipex->cmd[1][i] == '	')
@@ -61,7 +61,7 @@ void	make_exit(t_pipex *pipex, t_list **env)
 	{
 		if (!ft_isdigit(pipex->cmd[1][i++]))
 		{
-			ft_putstr_fd("exit: argument numérique nécessaire\n", 2);
+			ft_putstr_fd("exit: numeric argument required\n", 2);
 			free_param(pipex, env, 2);
 		}
 	}

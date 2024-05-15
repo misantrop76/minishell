@@ -50,7 +50,7 @@ int	make_export(char **cmd, t_list **env)
 		{
 			ft_putstr_fd("export: '", 2);
 			ft_putstr_fd(cmd[i], 2);
-			ft_putstr_fd(": identifiant non valable\n", 2);
+			ft_putstr_fd(": not a valid identifier\n", 2);
 			status = 1;
 		}
 		else if (cmd[i][j] == '=')
@@ -105,7 +105,7 @@ int	make_unset(char **cmd, t_list **env)
 		{
 			ft_putstr_fd("unset: ", 2);
 			ft_putstr_fd(cmd[i], 2);
-			ft_putstr_fd(": invalid parameter name\n", 2);
+			ft_putstr_fd(": not a valid identifier\n", 2);
 			status = 1;
 		}
 		else

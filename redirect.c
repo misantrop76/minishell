@@ -21,7 +21,7 @@ int	redirection_out(char *output)
 	if (fd_output == -1)
 	{
 		ft_putstr_fd(output, 2);
-		ft_putstr_fd(": Permission non accordée\n", 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 		return (1);
 	}
 	if (dup2(fd_output, STDOUT_FILENO) == -1)
@@ -39,7 +39,7 @@ int	redirection_out_append(char *output)
 	if (fd_output == -1)
 	{
 		ft_putstr_fd(output, 2);
-		ft_putstr_fd(": Permission non accordée\n", 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 		return (1);
 	}
 	if (dup2(fd_output, STDOUT_FILENO) == -1)
@@ -59,9 +59,9 @@ int	redirection_input(char *input)
 	{
 		ft_putstr_fd(input, 2);
 		if (errno == EACCES)
-			ft_putstr_fd(": Permission non accordée\n", 2);
+			ft_putstr_fd(": Permission denied\n", 2);
 		else
-			ft_putstr_fd(": Aucun fichier ou dossier de ce nom\n", 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
 		fd_input = open("/dev/null", O_RDONLY, 00664);
 		dup2(fd_input, STDIN_FILENO);
 		return (1);
