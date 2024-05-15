@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:10:01 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 20:03:35 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/15 03:16:01 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ int	make_export(char **cmd, t_list **env)
 		j = 0;
 		while (ft_isalnum(cmd[i][j]) || cmd[i][j] == '_')
 			j++;
-		if ((ft_isalpha(cmd[i][0]) == 0 && cmd[i][0] != '_')
-			|| cmd[i][0] == '=' || (cmd[i][j] && cmd[i][j] != '='))
+		if ((ft_isalpha(cmd[i][0]) == 0 && cmd[i][0] != '_') || cmd[i][0] == '='
+			|| (cmd[i][j] && cmd[i][j] != '='))
 		{
 			ft_putstr_fd("export: '", 2);
 			ft_putstr_fd(cmd[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			ft_putstr_fd(": identifiant non valable\n", 2);
 			status = 1;
 		}
 		else if (cmd[i][j] == '=')

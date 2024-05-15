@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/13 17:17:50 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/15 03:16:14 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ int	check_input(char *input, t_list **my_env, int status)
 	}
 	if (!token_lst)
 	{
-		ft_putstr_fd("command not found: ''\n", 2);
+		// ft_putstr_fd("command not found: ''\n", 2);
 		ft_lstclear(&token_lst, del_token);
-		return (127);
+		return (0);
 	}
 	status = parse_token(&token_lst, my_env);
 	ft_lstclear(&token_lst, del_token);

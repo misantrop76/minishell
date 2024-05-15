@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:57:55 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/14 15:07:30 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/15 03:15:57 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_struct(char **path, t_pipex *pipex, t_list **env, char **my_env)
+void	free_struct(t_pipex *pipex, t_list **env, char **my_env)
 {
-	free_tab(path);
+	(void)pipex;
+	(void)env;
 	free_tab(pipex->cmd);
 	free_tab(my_env);
+	ft_lstclear(&pipex->pid_lst, simple_del);
 	ft_lstclear(env, simple_del);
 	ft_lstclear(pipex->token_lst, del_token);
 	rl_clear_history();
@@ -25,20 +27,32 @@ void	free_struct(char **path, t_pipex *pipex, t_list **env, char **my_env)
 void	unknown_command(t_pipex *pipex, char **path, t_list **env,
 		char **my_env)
 {
-	int status;
-	struct stat buf;
+	int			status;
+	struct stat	buf;
+	int			i;
 
 	status = 127;
-	stat(pipex->cmd[0], &buf);
+	i = 0;
 	ft_putstr_fd(pipex->cmd[0], 1);
-	if (S_ISDIR(buf.st_mode))
+	while (pipex->cmd[0][i] && pipex->cmd[0][i] != '/')
+		i++;
+	if (pipex->cmd[0][i] && stat(pipex->cmd[0], &buf) == 0
+		&& S_ISDIR(buf.st_mode))
 	{
-		ft_putstr_fd(": Is a directory\n", 2);
+		ft_putstr_fd(": est un dossier\n", 2);
 		status = 126;
 	}
+	else if (!pipex->cmd[0][i])
+		ft_putstr_fd(" : commande introuvable\n", 2);
+	else if (access(pipex->cmd[0], X_OK) != 0 && errno == EACCES)
+	{
+		status = 126;
+		ft_putstr_fd(": Permission non accordée\n", 2);
+	}
 	else
-		ft_putstr_fd(": command not found\n", 2);
-	free_struct(path, pipex, env, my_env);
+		ft_putstr_fd(": Aucun fichier ou dossier de ce nom\n", 2);
+	free_struct(pipex, env, my_env);
+	free_tab(path);
 	exit(status);
 }
 

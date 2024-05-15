@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   build_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/14 15:39:22 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/14 21:24:21 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	make_cd(char **cmd, t_list *env)
-{
-	char	buf[100];
-	char	*str;
-
-	if (cmd[1] && cmd[2])
-	{
-		ft_putstr_fd("cd : wrong number of arguments\n", 2);
-		return (1);
-	}
-	if (!cmd[1] || ft_strncmp(cmd[1], "~", 2) == 0)
-		str = ft_strdup(get_var("HOME", env));
-	else
-		str = ft_strdup(cmd[1]);
-	if (!chdir(str))
-	{
-		if (getcwd(buf, 99))
-			change_var(env, "PWD", getcwd(buf, 99));
-	}
-	else
-	{
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
-		return (1);
-	}
-	free(str);
-	return (0);
-}
 
 int	make_pwd(char **cmd)
 {
@@ -61,11 +32,12 @@ void	free_param(t_pipex *pipex, t_list **env, int code)
 	free_tab(pipex->cmd);
 	if (code < 0)
 		code += 256;
-	if (code >= 0 && code > 255 && pipex->cmd)
+	if (code > 255)
 		code = code % 256;
-	if (code == 0)
-		ft_putstr_fd("exit\n", 1);
-	exit(code);
+	ft_putstr_fd("exit\n", 1);
+	if (code >= 0 && code <= 255)
+		exit(code);
+	exit(1);
 }
 
 void	make_exit(t_pipex *pipex, t_list **env)
@@ -78,7 +50,7 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		free_param(pipex, env, 0);
 	if (pipex->cmd[1] && pipex->cmd[2])
 	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
+		ft_putstr_fd("exit: trop d'arguments\n", 2);
 		free_param(pipex, env, 1);
 	}
 	while (pipex->cmd[1][i] == ' ' || pipex->cmd[1][i] == '	')
@@ -89,7 +61,7 @@ void	make_exit(t_pipex *pipex, t_list **env)
 	{
 		if (!ft_isdigit(pipex->cmd[1][i++]))
 		{
-			ft_putstr_fd("exit: numeric argument required\n", 2);
+			ft_putstr_fd("exit: argument numérique nécessaire\n", 2);
 			free_param(pipex, env, 2);
 		}
 	}
