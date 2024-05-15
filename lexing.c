@@ -30,6 +30,7 @@ t_token	*mk_word(char *input, int *i, t_list *env, int status)
 	var.quote_s = 0;
 	var.str = ft_strdup("");
 	var.status = status;
+	var.is_quote = 0;
 	while (input[*i] && (var.quote || var.quote_s || is_ispace(input[*i],
 				1) == 0))
 	{
@@ -41,6 +42,8 @@ t_token	*mk_word(char *input, int *i, t_list *env, int status)
 	}
 	if (var.quote || var.quote_s)
 		return (mk_token("ERROR", "\""));
+	if (var.is_quote == 0 && ft_strlen(var.str) == 0)
+		return (mk_token("EMPTY", ""));
 	var.token = mk_token("WORD", var.str);
 	free(var.str);
 	return (var.token);
@@ -100,7 +103,7 @@ int	check_input(char *input, t_list **my_env, int status)
 		if (!input[i])
 			break ;
 		token = get_token(input, &i, *my_env, status);
-		if (ft_strlen(token->value) == 0)
+		if (ft_strncmp(token->type, "EMPTY", 5) == 0)
 			del_token(token);
 		else
 			ft_lstadd_back(&token_lst, ft_lstnew(token));

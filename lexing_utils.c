@@ -46,6 +46,8 @@ void	check_quote(char c, t_var *var, int *i)
 			var->quote_s = 1;
 		*i += 1;
 	}
+	if (var->quote || var->quote_s)
+		var->is_quote = 1;
 }
 
 char	*var_name(char *input, int *i)

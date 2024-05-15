@@ -1,0 +1,22 @@
+total 120
+-rw-r--r-- 1 mminet 2019_le-havre  3013 May 15 14:16 build_in.c
+-rw-r--r-- 1 mminet 2019_le-havre  2435 May 15 14:16 build_in_utils.c
+-rw-r--r-- 1 mminet 2019_le-havre  4157 May 15 14:16 exec_line.c
+-rw-r--r-- 1 mminet 2019_le-havre  2432 May 15 14:16 exec_utils.c
+-rw-r--r-- 1 mminet 2019_le-havre  2679 May 15 14:16 export.c
+-rw-r--r-- 1 mminet 2019_le-havre  1576 May 15 14:16 here_doc.c
+-rw-r--r-- 1 mminet 2019_le-havre  2931 May 15 14:16 lexing.c
+-rw-r--r-- 1 mminet 2019_le-havre  2743 May 15 14:16 lexing_utils.c
+drwxr-xr-x 2 mminet 2019_le-havre  4096 May 15 14:16 libft
+-rw-r--r-- 1 mminet 2019_le-havre  2717 May 15 14:16 Makefile
+-rwxr-xr-x 1 mminet 2019_le-havre 42232 May 15 14:16 minishell
+-rw-r--r-- 1 mminet 2019_le-havre  1567 May 15 14:16 minishell.c
+-rw-r--r-- 1 mminet 2019_le-havre  3025 May 15 14:16 minishell.h
+-rw-r--r-- 1 mminet 2019_le-havre  1889 May 15 14:16 my_env.c
+drwxr-xr-x 2 mminet 2019_le-havre   269 May 15 14:16 obj
+-rw-r--r-- 1 mminet 2019_le-havre     0 May 15 14:19 out
+-rw-r--r-- 1 mminet 2019_le-havre  2584 May 15 14:16 parser.c
+-rw-r--r-- 1 mminet 2019_le-havre  1997 May 15 14:16 parser_utils.c
+-rw-r--r-- 1 mminet 2019_le-havre  2421 May 15 14:16 read_line.c
+-rw-r--r-- 1 mminet 2019_le-havre  2740 May 15 14:16 redirect.c
+-rw-r--r-- 1 mminet 2019_le-havre   146 May 15 14:16 valgrind_ignore_leaks.txt

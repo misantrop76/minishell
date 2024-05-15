@@ -55,6 +55,7 @@ typedef struct s_var
 	int		status;
 	int		quote;
 	int		quote_s;
+	int		is_quote;
 	char	*str;
 	char	*tmp;
 	char	*var_to_get;
