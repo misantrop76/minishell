@@ -84,7 +84,7 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 	while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
 	{
 		if (ft_strncmp(pipex->token->type, "WORD", 4) && ft_open(pipex->token,
-				pipex))
+				pipex, my_env))
 		{
 			pipex->status = 1;
 			while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
@@ -99,6 +99,8 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 		if (pipex->tmp)
 			pipex->token = pipex->tmp->content;
 	}
+	if (g_sig_check)
+		return;
 	if (pipex->cmd && !is_pipe(*pipex->token_lst) && is_build_in(pipex->cmd[0]))
 		pipex->status = make_build_in(pipex->cmd, my_env, pipex);
 	else if (pipex->tmp && pipex->cmd)

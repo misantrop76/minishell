@@ -63,7 +63,7 @@ typedef struct s_var
 }			t_var;
 
 void		del_token(void *to_del);
-int			ft_open(t_token *token_list, t_pipex *pipex);
+int			ft_open(t_token *token_list, t_pipex *pipex, t_list **env);
 char		*get_next_line(int fd);
 int			make_build_in(char **cmd, t_list **env, t_pipex *pipex);
 int			is_build_in(char *str);
@@ -92,7 +92,7 @@ int			is_pipe(t_list *token_lst);
 void		unknown_command(t_pipex *pipex, char **path, t_list **env,
 char **my_env);
 void		free_struct(t_pipex *pipex, t_list **env, char **my_env);
-int			heredoc(char *limit);
+int			heredoc(char *limit, t_pipex *pipex, t_list **env);
 int			is_ispace(char c, int op);
 
 #endif

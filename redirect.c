@@ -72,7 +72,7 @@ int	redirection_input(char *input)
 	return (0);
 }
 
-int	ft_open(t_token *token, t_pipex *pipex)
+int	ft_open(t_token *token, t_pipex *pipex, t_list **env)
 {
 	if (ft_strncmp(token->type, "STDIN", 5) == 0 || ft_strncmp(token->type,
 			"READ", 4) == 0)
@@ -86,6 +86,6 @@ int	ft_open(t_token *token, t_pipex *pipex)
 	else if (ft_strncmp(token->type, "STDIN", 5) == 0)
 		return (redirection_input(token->value));
 	else if (ft_strncmp(token->type, "READ", 4) == 0)
-		return (heredoc(token->value));
+		return (heredoc(token->value, pipex, env));
 	return (0);
 }

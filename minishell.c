@@ -48,7 +48,7 @@ int	main(int ac, char **av, char **env)
 	}
 	else
 		ft_lstadd_back(&my_env, ft_lstnew(ft_strdup("SHLVL=1")));
-	signal(SIGPIPE, SIG_IGN); 
+	signal(SIGPIPE, SIG_IGN);
 	get_input(&my_env);
 	my_exit(&my_env);
 }
