@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/15 03:10:02 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/16 13:48:06 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/stat.h>
-#include <sys/types.h>
+# include <sys/types.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
@@ -90,7 +90,7 @@ int			make_export(char **cmd, t_list **env);
 char		**make_env_char(t_list *env);
 int			is_pipe(t_list *token_lst);
 void		unknown_command(t_pipex *pipex, char **path, t_list **env,
-char **my_env);
+				char **my_env);
 void		free_struct(t_pipex *pipex, t_list **env, char **my_env);
 int			heredoc(char *limit, t_pipex *pipex, t_list **env);
 int			is_ispace(char c, int op);

@@ -6,7 +6,7 @@
 /*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:01:01 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/14 13:01:02 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/16 13:51:04 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	handler_exit(int sig)
 
 void	write_in_pipe(char *limit, int fd, t_pipex *pipex, t_list **env)
 {
-	char	*buf;
+	char				*buf;
 	struct sigaction	sa;
 
 	sa.sa_handler = &handler_exit;
@@ -44,7 +44,6 @@ void	write_in_pipe(char *limit, int fd, t_pipex *pipex, t_list **env)
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &sa, NULL);
 	buf = readline("\001\e[00;96m\002>\001\e[0m\002");
-
 	printf("sig = %d\n", g_sig_check);
 	if (g_sig_check)
 		free_struct_here_doc(pipex, env, 130);
@@ -84,7 +83,6 @@ int	heredoc(char *limit, t_pipex *pipex, t_list **env)
 		close(p_fd[1]);
 		dup2(p_fd[0], STDIN_FILENO);
 		close(p_fd[0]);
-
 		waitpid(pid, NULL, 0);
 	}
 	return (0);

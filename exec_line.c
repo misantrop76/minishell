@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/15 03:09:36 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/16 13:52:15 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 			pipex->token = pipex->tmp->content;
 	}
 	if (g_sig_check)
-		return;
+		return ;
 	if (pipex->cmd && !is_pipe(*pipex->token_lst) && is_build_in(pipex->cmd[0]))
 		pipex->status = make_build_in(pipex->cmd, my_env, pipex);
 	else if (pipex->tmp && pipex->cmd)
