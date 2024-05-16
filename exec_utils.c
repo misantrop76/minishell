@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:57:55 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 14:27:24 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/16 16:08:52 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_struct(t_pipex *pipex, t_list **env, char **my_env)
+void	free_struct(t_pipex *pipex, t_list **env)
 {
-	(void)pipex;
-	(void)env;
 	free_tab(pipex->cmd);
-	free_tab(my_env);
+	free_tab(pipex->env);
 	ft_lstclear(&pipex->pid_lst, simple_del);
 	ft_lstclear(env, simple_del);
 	ft_lstclear(pipex->token_lst, del_token);
@@ -31,8 +29,7 @@ int	ft_putstr_fd_return_status(char *str, int fd, int status)
 	return (status);
 }
 
-void	unknown_command(t_pipex *pipex, char **path, t_list **env,
-		char **my_env)
+void	unknown_command(t_pipex *pipex, char **path, t_list **env)
 {
 	int			status;
 	struct stat	buf;
@@ -52,7 +49,7 @@ void	unknown_command(t_pipex *pipex, char **path, t_list **env,
 		status = ft_putstr_fd_return_status(": Permission denied\n", 2, 126);
 	else
 		ft_putstr_fd(": No such file or directory\n", 2);
-	free_struct(pipex, env, my_env);
+	free_struct(pipex, env);
 	free_tab(path);
 	exit(status);
 }

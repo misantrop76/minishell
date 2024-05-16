@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:10:59 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/15 03:15:48 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/16 18:36:48 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int	make_cd(char **cmd, t_list *env)
 	char	*str;
 
 	if (cmd[1] && cmd[2])
-		return (write(2, "cd : too many arguments\n", 23) - 22);
+		return (write(2, "cd : too many arguments\n", 25) - 24);
 	str = get_new_pwd(cmd[1], env);
 	if (!str)
-		return (write(2, "cd: HOME not set\n", 30) - 29);
+		return (write(2, "cd: HOME not set\n", 18) - 17);
 	if (!chdir(str))
 	{
 		if (getcwd(buf, 99))
@@ -80,19 +80,24 @@ int	make_echo(char **cmd)
 {
 	int	i;
 	int	flag;
+	int	j;
 
 	i = 1;
 	flag = 0;
-	if (cmd[1] && ft_strncmp(cmd[1], "-n", 2) == 0)
+	while (cmd[i] && ft_strncmp(cmd[i], "-n", 2) == 0)
 	{
+		j = 1;
+		while (cmd[i][j] == 'n')
+			j++;
+		if (cmd[i][j])
+			break ;
 		i++;
 		flag = 1;
 	}
 	while (cmd[i])
 	{
 		ft_putstr_fd(cmd[i], 1);
-		i++;
-		if (cmd[i])
+		if (cmd[i++ + 1])
 			ft_putstr_fd(" ", 1);
 	}
 	if (!flag)
@@ -116,6 +121,6 @@ int	make_build_in(char **cmd, t_list **env, t_pipex *pipex)
 	else if (ft_strncmp(cmd[0], "unset", 5) == 0)
 		return (make_unset(cmd, env));
 	else if (ft_strncmp(cmd[0], "exit", 4) == 0)
-		make_exit(pipex, env);
+		return (make_exit(pipex, env));
 	return (0);
 }

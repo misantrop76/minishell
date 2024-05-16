@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 14:03:29 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/16 18:00:57 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ t_token	*mk_word(char *input, int *i, t_list *env, int status)
 			check_var(&var, env, i, input);
 	}
 	if (var.quote || var.quote_s)
-		return (mk_token("ERROR", "\""));
-	if (var.is_quote == 0 && ft_strlen(var.str) == 0)
-		return (mk_token("EMPTY", ""));
-	var.token = mk_token("WORD", var.str);
+		var.token = mk_token("ERROR", "\"");
+	else if (var.is_quote == 0 && ft_strlen(var.str) == 0)
+		var.token = mk_token("EMPTY", "");
+	else
+		var.token = mk_token("WORD", var.str);
 	free(var.str);
 	return (var.token);
 }
@@ -109,17 +110,8 @@ int	check_input(char *input, t_list **my_env, int status)
 			ft_lstadd_back(&token_lst, ft_lstnew(token));
 	}
 	if (!token_lst)
-		ft_lstclear(&token_lst, del_token);
-	if (!token_lst)
 		return (0);
 	status = parse_token(&token_lst, my_env);
 	ft_lstclear(&token_lst, del_token);
 	return (status);
 }
-
-	// if (!token_lst)
-	// {
-	// 	// ft_putstr_fd("command not found: ''\n", 2);
-	// 	ft_lstclear(&token_lst, del_token);
-	// 	return (0);
-	// }

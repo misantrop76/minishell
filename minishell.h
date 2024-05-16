@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 13:48:06 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/16 18:28:31 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_pipex
 	int		old_stdout;
 	int		old_stdin;
 	int		out;
+	char	**env;
 	char	**cmd;
 }			t_pipex;
 
@@ -61,6 +62,8 @@ typedef struct s_var
 	char	*var_to_get;
 	t_token	*token;
 }			t_var;
+
+extern int	g_sig_check;
 
 void		del_token(void *to_del);
 int			ft_open(t_token *token_list, t_pipex *pipex, t_list **env);
@@ -82,17 +85,20 @@ char		**get_cmd(t_list *token_lst);
 void		change_var(t_list *env, char *var_to_change, char *change);
 int			make_cd(char **cmd, t_list *env);
 int			make_pwd(char **cmd);
-void		make_exit(t_pipex *pipex, t_list **env);
+int			make_exit(t_pipex *pipex, t_list **env);
 void		simple_del(void *del);
 void		free_tab(char **cmd);
 int			make_unset(char **cmd, t_list **env);
 int			make_export(char **cmd, t_list **env);
 char		**make_env_char(t_list *env);
 int			is_pipe(t_list *token_lst);
-void		unknown_command(t_pipex *pipex, char **path, t_list **env,
-				char **my_env);
-void		free_struct(t_pipex *pipex, t_list **env, char **my_env);
+void		unknown_command(t_pipex *pipex, char **path, t_list **env);
 int			heredoc(char *limit, t_pipex *pipex, t_list **env);
 int			is_ispace(char c, int op);
+void		handler_exit(int sig);
+void		wait_child(pid_t pid);
+void		free_struct(t_pipex *pipex, t_list **env);
+void		check_make_build_in(t_pipex *pipex, t_list **env);
+void		my_close(t_pipex *pipex);
 
 #endif

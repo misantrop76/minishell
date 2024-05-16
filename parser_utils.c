@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 14:20:40 by mminet            #+#    #+#             */
-/*   Updated: 2024/04/29 13:43:23 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/16 18:10:56 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,19 @@ int	is_operator(char *str)
 	return (0);
 }
 
+static int	check_pipe(t_token *token, t_token *token_next)
+{
+	if (ft_strncmp(token->type, "ERROR", 5) == 0)
+		return (1);
+	if (ft_strncmp(token->type, "PIPE", 4) == 0 && ft_strncmp(token_next->type,
+			"PIPE", 4) == 0)
+		return (1);
+	if (is_operator(token->type) && ft_strncmp(token_next->type, "WORD",
+			4 != 0))
+		return (1);
+	return (0);
+}
+
 int	check_error(t_list *lst_token)
 {
 	t_token	*token;
@@ -37,18 +50,13 @@ int	check_error(t_list *lst_token)
 
 	tmp = lst_token;
 	token = tmp->content;
-	if (ft_strncmp(token->type, "PIPE", 4) == 0)
+	if (ft_strncmp(token->type, "PIPE", 4) == 0 || ft_strncmp(token->type,
+			"ERROR", 5) == 0)
 		return (parse_error(token->value));
 	while (tmp->next)
 	{
 		token_next = tmp->next->content;
-		if (ft_strncmp(token->type, "ERROR", 5) == 0)
-			return (parse_error(token->value));
-		if (ft_strncmp(token->type, "PIPE", 4) == 0
-			&& ft_strncmp(token_next->type, "PIPE", 4) == 0)
-			return (parse_error(token->value));
-		if (is_operator(token->type) && ft_strncmp(token_next->type, "WORD",
-				4 != 0))
+		if (check_pipe(token, token_next))
 			return (parse_error(token->value));
 		tmp = tmp->next;
 		token = tmp->content;

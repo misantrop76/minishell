@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/14 21:24:21 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/16 18:50:51 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,29 @@ int	make_pwd(char **cmd)
 void	free_param(t_pipex *pipex, t_list **env, int code)
 {
 	ft_lstclear(env, simple_del);
+	if (pipex->env)
+		free_tab(pipex->env);
 	ft_lstclear(pipex->token_lst, del_token);
+	ft_lstclear(&pipex->pid_lst, simple_del);
 	free_tab(pipex->cmd);
 	if (code < 0)
 		code += 256;
 	if (code > 255)
 		code = code % 256;
-	ft_putstr_fd("exit\n", 1);
 	if (code >= 0 && code <= 255)
 		exit(code);
 	exit(1);
 }
 
-void	make_exit(t_pipex *pipex, t_list **env)
+int	make_exit(t_pipex *pipex, t_list **env)
 {
 	int	ex;
 	int	i;
 
 	i = 0;
+	ft_putstr_fd("exit\n", 1);
 	if (!pipex->cmd[1])
 		free_param(pipex, env, 0);
-	if (pipex->cmd[1] && pipex->cmd[2])
-	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
-		free_param(pipex, env, 1);
-	}
 	while (pipex->cmd[1][i] == ' ' || pipex->cmd[1][i] == '	')
 		i++;
 	if (pipex->cmd[1][i] == '+' || pipex->cmd[1][i] == '-')
@@ -66,24 +64,27 @@ void	make_exit(t_pipex *pipex, t_list **env)
 		}
 	}
 	ex = ft_atoi(pipex->cmd[1]);
-	free_param(pipex, env, ex);
+	if (!pipex->cmd[2])
+		free_param(pipex, env, ex);
+	ft_putstr_fd("exit: too many arguments\n", 2);
+	return (1);
 }
 
 int	is_build_in(char *str)
 {
-	if (ft_strncmp(str, "cd", 2) == 0)
+	if (ft_strncmp(str, "cd", 2) == 0 && ft_strlen(str) == 2)
 		return (1);
-	else if (ft_strncmp(str, "pwd", 3) == 0)
+	else if (ft_strncmp(str, "pwd", 3) == 0 && ft_strlen(str) == 3)
 		return (1);
-	else if (ft_strncmp(str, "echo", 4) == 0)
+	else if (ft_strncmp(str, "echo", 4) == 0 && ft_strlen(str) == 4)
 		return (1);
-	else if (ft_strncmp(str, "export", 6) == 0)
+	else if (ft_strncmp(str, "export", 6) == 0 && ft_strlen(str) == 6)
 		return (1);
-	else if (ft_strncmp(str, "unset", 5) == 0)
+	else if (ft_strncmp(str, "unset", 5) == 0 && ft_strlen(str) == 5)
 		return (1);
-	else if (ft_strncmp(str, "env", 3) == 0)
+	else if (ft_strncmp(str, "env", 3) == 0 && ft_strlen(str) == 3)
 		return (1);
-	else if (ft_strncmp(str, "exit", 4) == 0)
+	else if (ft_strncmp(str, "exit", 4) == 0 && ft_strlen(str) == 4)
 		return (1);
 	return (0);
 }

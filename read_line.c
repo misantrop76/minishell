@@ -36,11 +36,12 @@ char	*print_prompt(int status)
 	return (str);
 }
 
-void	handler_ignor(int sig)
+void	handler_exit(int sig)
 {
 	(void)sig;
 	g_sig_check = 1;
 	ft_putstr_fd("\n", 1);
+	dup2(open("/dev/null", O_RDONLY, 00664), STDIN_FILENO);
 }
 
 void	handler(int sig)
@@ -63,7 +64,7 @@ void	handle_signal(int *status, t_list **my_env, char *input,
 	}
 	if (ft_strlen(input))
 	{
-		sa.sa_handler = &handler_ignor;
+		sa.sa_handler = &handler_exit;
 		sigaction(SIGINT, &sa, NULL);
 		add_history(input);
 		*status = check_input(input, my_env, *status);

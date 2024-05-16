@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:32:42 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/15 03:25:29 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:05:43 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	main(int ac, char **av, char **env)
 	else
 		ft_lstadd_back(&my_env, ft_lstnew(ft_strdup("SHLVL=1")));
 	signal(SIGPIPE, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	get_input(&my_env);
 	my_exit(&my_env);
 }
