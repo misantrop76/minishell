@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:57:55 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/15 03:15:57 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/16 14:27:24 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ void	free_struct(t_pipex *pipex, t_list **env, char **my_env)
 	rl_clear_history();
 }
 
+int	ft_putstr_fd_return_status(char *str, int fd, int status)
+{
+	if (str)
+		write(fd, str, ft_strlen(str));
+	return (status);
+}
+
 void	unknown_command(t_pipex *pipex, char **path, t_list **env,
 		char **my_env)
 {
@@ -38,23 +45,27 @@ void	unknown_command(t_pipex *pipex, char **path, t_list **env,
 		i++;
 	if (pipex->cmd[0][i] && stat(pipex->cmd[0], &buf) == 0
 		&& S_ISDIR(buf.st_mode))
-	{
-		ft_putstr_fd(": Is a directory\n", 2);
-		status = 126;
-	}
+		status = ft_putstr_fd_return_status(": Is a directory\n", 2, 126);
 	else if (!pipex->cmd[0][i])
 		ft_putstr_fd(" : command not found\n", 2);
 	else if (access(pipex->cmd[0], X_OK) != 0 && errno == EACCES)
-	{
-		status = 126;
-		ft_putstr_fd(": Permission denied\n", 2);
-	}
+		status = ft_putstr_fd_return_status(": Permission denied\n", 2, 126);
 	else
 		ft_putstr_fd(": No such file or directory\n", 2);
 	free_struct(pipex, env, my_env);
 	free_tab(path);
 	exit(status);
 }
+
+	// {
+	// 	ft_putstr_fd(": Is a directory\n", 2);
+	// 	status = 126;
+	// }
+
+	// {
+	// 	status = 126;
+	// 	ft_putstr_fd(": Permission denied\n", 2);
+	// }
 
 char	**make_env_char(t_list *env)
 {
