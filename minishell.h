@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 18:28:31 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/17 13:13:13 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int			make_unset(char **cmd, t_list **env);
 int			make_export(char **cmd, t_list **env);
 char		**make_env_char(t_list *env);
 int			is_pipe(t_list *token_lst);
-void		unknown_command(t_pipex *pipex, char **path, t_list **env);
+void		unknown_command(t_pipex *pipex, char **path);
 int			heredoc(char *limit, t_pipex *pipex, t_list **env);
 int			is_ispace(char c, int op);
 void		handler_exit(int sig);

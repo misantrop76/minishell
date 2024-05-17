@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/16 18:29:41 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/17 13:57:37 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,21 @@ void	exec_cmd(char **cmd, t_list **env, t_pipex *pipex)
 	newpath = NULL;
 	i = 0;
 	check_make_build_in(pipex, env);
+	path = NULL;
 	if (get_var("PATH", *env))
 		path = ft_split(get_var("PATH", *env), ':');
-	else
-		path = ft_split("/bin:/sbin", ':');
+	free_struct(pipex, env);
 	execve(cmd[0], cmd, pipex->env);
-	while (path[i])
+	while (path && path[i])
 	{
-		tmp = ft_strjoin(path[i++], "/");
+		tmp = ft_strjoin(path[i], "/");
 		newpath = ft_strjoin(tmp, cmd[0]);
 		free(tmp);
 		execve(newpath, cmd, pipex->env);
 		free(newpath);
+		i++;
 	}
-	unknown_command(pipex, path, env);
+	unknown_command(pipex, path);
 }
 
 void	check_cmd(t_pipex *pipex, t_list **my_env, int i, t_list **pid_lst)

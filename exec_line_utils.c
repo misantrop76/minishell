@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:27:33 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 18:30:14 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/17 16:21:43 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ void	my_close(t_pipex *pipex)
 	while (tmp)
 	{
 		i = tmp->content;
-		waitpid(*i, &s, 0);
+		if (waitpid(*i, &s, 0) == 0)
+		{
+			if (pipex->status == 0)
+				pipex->status = s >> 8;
+		}
 		tmp = tmp->next;
-		if (pipex->status == 0)
-			pipex->status = s >> 8;
 	}
 	if (g_sig_check)
 	{
@@ -50,6 +52,8 @@ void	check_make_build_in(t_pipex *pipex, t_list **env)
 	{
 		status = make_build_in(pipex->cmd, env, pipex);
 		free_struct(pipex, env);
+		free_tab(pipex->cmd);
+		free_tab(pipex->env);
 		exit(status);
 	}
 }

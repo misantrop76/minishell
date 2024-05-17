@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:57:55 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 16:08:52 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/17 13:52:16 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	free_struct(t_pipex *pipex, t_list **env)
 {
-	free_tab(pipex->cmd);
-	free_tab(pipex->env);
 	ft_lstclear(&pipex->pid_lst, simple_del);
 	ft_lstclear(env, simple_del);
 	ft_lstclear(pipex->token_lst, del_token);
@@ -29,7 +27,7 @@ int	ft_putstr_fd_return_status(char *str, int fd, int status)
 	return (status);
 }
 
-void	unknown_command(t_pipex *pipex, char **path, t_list **env)
+void	unknown_command(t_pipex *pipex, char **path)
 {
 	int			status;
 	struct stat	buf;
@@ -49,20 +47,12 @@ void	unknown_command(t_pipex *pipex, char **path, t_list **env)
 		status = ft_putstr_fd_return_status(": Permission denied\n", 2, 126);
 	else
 		ft_putstr_fd(": No such file or directory\n", 2);
-	free_struct(pipex, env);
-	free_tab(path);
+	if (path)
+		free_tab(path);
+	free_tab(pipex->cmd);
+	free_tab(pipex->env);
 	exit(status);
 }
-
-	// {
-	// 	ft_putstr_fd(": Is a directory\n", 2);
-	// 	status = 126;
-	// }
-
-	// {
-	// 	status = 126;
-	// 	ft_putstr_fd(": Permission denied\n", 2);
-	// }
 
 char	**make_env_char(t_list *env)
 {
