@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 23:30:44 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/17 13:13:13 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:39:39 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/wait.h>
-# include <unistd.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
@@ -41,12 +41,15 @@ typedef struct s_pipex
 	t_list	*tmp;
 	t_list	**token_lst;
 	t_list	*pid_lst;
+	t_list	*here_doc;
+	t_list	*here_doc_p;
 	t_token	*token;
 	int		status;
 	int		*pid;
 	int		old_stdout;
 	int		old_stdin;
 	int		out;
+	int		fd_tmp;
 	char	**env;
 	char	**cmd;
 }			t_pipex;
@@ -66,7 +69,7 @@ typedef struct s_var
 extern int	g_sig_check;
 
 void		del_token(void *to_del);
-int			ft_open(t_token *token_list, t_pipex *pipex, t_list **env);
+int			ft_open(t_token *token_list, t_pipex *pipex);
 char		*get_next_line(int fd);
 int			make_build_in(char **cmd, t_list **env, t_pipex *pipex);
 int			is_build_in(char *str);
@@ -93,12 +96,15 @@ int			make_export(char **cmd, t_list **env);
 char		**make_env_char(t_list *env);
 int			is_pipe(t_list *token_lst);
 void		unknown_command(t_pipex *pipex, char **path);
-int			heredoc(char *limit, t_pipex *pipex, t_list **env);
+void		heredoc(char *limit, t_pipex *pipex, t_list **env);
 int			is_ispace(char c, int op);
 void		handler_exit(int sig);
 void		wait_child(pid_t pid);
 void		free_struct(t_pipex *pipex, t_list **env);
 void		check_make_build_in(t_pipex *pipex, t_list **env);
 void		my_close(t_pipex *pipex);
+void		fill_here_doc(t_pipex *pipex, t_list **env);
+void		init_pipex(t_pipex *pipex, t_list **env, t_list **token_lst);
+void		is_stdin(t_pipex *pipex, int fd, int i);
 
 #endif

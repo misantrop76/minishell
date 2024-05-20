@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:57:55 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/17 13:52:16 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:21:58 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,19 @@
 
 void	free_struct(t_pipex *pipex, t_list **env)
 {
+	int	*fd;
+
+	close(pipex->fd_tmp);
 	ft_lstclear(&pipex->pid_lst, simple_del);
 	ft_lstclear(env, simple_del);
 	ft_lstclear(pipex->token_lst, del_token);
+	while (pipex->here_doc_p)
+	{
+		fd = pipex->here_doc_p->content;
+		close(*fd);
+		pipex->here_doc_p = pipex->here_doc_p->next;
+	}
+	ft_lstclear(&pipex->here_doc, simple_del);
 	rl_clear_history();
 }
 
@@ -35,7 +45,7 @@ void	unknown_command(t_pipex *pipex, char **path)
 
 	status = 127;
 	i = 0;
-	ft_putstr_fd(pipex->cmd[0], 1);
+	ft_putstr_fd(pipex->cmd[0], 2);
 	while (pipex->cmd[0][i] && pipex->cmd[0][i] != '/')
 		i++;
 	if (pipex->cmd[0][i] && stat(pipex->cmd[0], &buf) == 0

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 23:42:30 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 13:49:45 by ehay             ###   ########.fr       */
+/*   Updated: 2024/05/20 17:26:07 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	check_var(t_var *var, t_list *env, int *i, char *input)
 	char	tmp[2];
 
 	tmp[1] = '\0';
-	if (input[*i] == '$' && var->quote_s == 0 && input[*i + 1] && input[*i
-			+ 1] != '"' && !is_ispace(input[*i + 1], 0))
+	if (input[*i] == '$' && var->quote_s == 0 && input[*i + 1]
+		&& input[*i + 1] != '"' && !is_ispace(input[*i + 1], 0))
 	{
 		var->tmp = var->str;
 		var->var_to_get = var_to_get(input, i, env, var->status);

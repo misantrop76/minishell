@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:00:08 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 18:50:51 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:21:46 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,21 @@ int	make_pwd(char **cmd)
 
 void	free_param(t_pipex *pipex, t_list **env, int code)
 {
+	int	*fd2;
+
 	ft_lstclear(env, simple_del);
 	if (pipex->env)
 		free_tab(pipex->env);
 	ft_lstclear(pipex->token_lst, del_token);
 	ft_lstclear(&pipex->pid_lst, simple_del);
+	while (pipex->here_doc_p)
+	{
+		fd2 = pipex->here_doc_p->content;
+		close(*fd2);
+		pipex->here_doc_p = pipex->here_doc_p->next;
+	}
+	close(pipex->fd_tmp);
+	ft_lstclear(&pipex->here_doc, simple_del);
 	free_tab(pipex->cmd);
 	if (code < 0)
 		code += 256;

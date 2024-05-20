@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:19:09 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/15 00:47:15 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:22:35 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ int	redirection_input(char *input)
 	return (0);
 }
 
-int	ft_open(t_token *token, t_pipex *pipex, t_list **env)
+int	ft_open(t_token *token, t_pipex *pipex)
 {
+	int	*fd;
+
 	if (ft_strncmp(token->type, "STDIN", 5) == 0 || ft_strncmp(token->type,
 			"READ", 4) == 0)
 		dup2(pipex->old_stdin, STDIN_FILENO);
@@ -86,6 +88,11 @@ int	ft_open(t_token *token, t_pipex *pipex, t_list **env)
 	else if (ft_strncmp(token->type, "STDIN", 5) == 0)
 		return (redirection_input(token->value));
 	else if (ft_strncmp(token->type, "READ", 4) == 0)
-		return (heredoc(token->value, pipex, env));
+	{
+		fd = pipex->here_doc_p->content;
+		dup2(*fd, STDIN_FILENO);
+		close(*fd);
+		pipex->here_doc_p = pipex->here_doc_p->next;
+	}
 	return (0);
 }

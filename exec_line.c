@@ -6,7 +6,7 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 14:59:41 by ehay              #+#    #+#             */
-/*   Updated: 2024/05/17 13:57:37 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:34:52 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	check_cmd(t_pipex *pipex, t_list **my_env, int i, t_list **pid_lst)
 		*pipex->pid = pid;
 		ft_lstadd_back(pid_lst, ft_lstnew(pipex->pid));
 		close(p_fd[1]);
-		dup2(p_fd[0], STDIN_FILENO);
+		is_stdin(pipex, p_fd[0], i);
 		close(p_fd[0]);
 	}
 }
@@ -88,7 +88,7 @@ void	parse_line(t_pipex *pipex, t_list **my_env, t_list **pid_lst)
 	while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
 	{
 		if (ft_strncmp(pipex->token->type, "WORD", 4) && g_sig_check == 0
-			&& ft_open(pipex->token, pipex, my_env))
+			&& ft_open(pipex->token, pipex))
 		{
 			pipex->status = 1;
 			while (pipex->tmp && ft_strncmp(pipex->token->type, "PIPE", 4) != 0)
@@ -110,14 +110,7 @@ int	exec_line(t_list **token_lst, t_list **my_env)
 {
 	t_pipex	pipex;
 
-	pipex.pid_lst = NULL;
-	pipex.cmd = NULL;
-	pipex.tmp = *token_lst;
-	pipex.status = 0;
-	pipex.old_stdin = dup(STDIN_FILENO);
-	pipex.old_stdout = dup(STDOUT_FILENO);
-	pipex.token_lst = token_lst;
-	pipex.env = NULL;
+	init_pipex(&pipex, my_env, token_lst);
 	while (pipex.tmp)
 	{
 		parse_line(&pipex, my_env, &pipex.pid_lst);
