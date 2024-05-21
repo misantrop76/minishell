@@ -6,11 +6,11 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:59:45 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/03 15:25:36 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/21 01:55:20 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	change_var(t_list *env, char *var_to_change, char *change)
 {

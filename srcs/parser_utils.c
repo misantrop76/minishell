@@ -6,11 +6,11 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 14:20:40 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/16 18:10:56 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/21 01:55:20 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	parse_error(char *str)
 {

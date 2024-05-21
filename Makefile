@@ -6,7 +6,7 @@
 #    By: mminet <mminet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 23:37:52 by mminet            #+#    #+#              #
-#    Updated: 2024/05/16 18:29:03 by mminet           ###   ########.fr        #
+#    Updated: 2024/05/21 01:53:37 by mminet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,22 +55,22 @@ SRCS_L =	libft/ft_atoi.c\
 			libft/ft_tolower.c\
 			libft/ft_toupper.c\
 
-SRCS =	minishell.c\
-		my_env.c\
-		lexing.c\
-		lexing_utils.c\
-		parser.c\
-		parser_utils.c\
-		read_line.c\
-		exec_line.c\
-		exec_line_utils.c\
-		exec_utils.c\
-		build_in.c\
-		redirect.c\
-		build_in_utils.c\
-		export.c\
-		here_doc.c\
-		here_doc_utils.c\
+SRCS =	srcs/minishell.c\
+		srcs/my_env.c\
+		srcs/lexing.c\
+		srcs/lexing_utils.c\
+		srcs/parser.c\
+		srcs/parser_utils.c\
+		srcs/read_line.c\
+		srcs/exec_line.c\
+		srcs/exec_line_utils.c\
+		srcs/exec_utils.c\
+		srcs/build_in.c\
+		srcs/redirect.c\
+		srcs/build_in_utils.c\
+		srcs/export.c\
+		srcs/here_doc.c\
+		srcs/here_doc_utils.c\
 
 NAME = minishell
 
@@ -80,7 +80,7 @@ CC = gcc
 
 FLAGS = -Wall -Wextra -Werror -lreadline -ltermcap 
 
-OBJ = $(patsubst %.c, obj/%.o, $(SRCS))
+OBJ = $(patsubst srcs/%.c, obj/%.o, $(SRCS))
 
 HEADER=	minishell.h
 
@@ -97,7 +97,7 @@ $(LIBFT): $(HEADER_LIB) $(SRCS_L)
 	@echo "\n==> Making LIBFT"
 	make -C ./libft
 
-obj/%.o: %.c
+obj/%.o: srcs/%.c
 	@mkdir -p obj
 	$(CC) $(FLAGS) -c $< -o $@
 

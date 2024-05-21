@@ -6,11 +6,11 @@
 /*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:27:33 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/20 17:37:47 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/21 01:55:20 by mminet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	is_stdin(t_pipex *pipex, int fd, int i)
 {
@@ -29,7 +29,7 @@ void	is_stdin(t_pipex *pipex, int fd, int i)
 		}
 		tmp = tmp->next;
 	}
-	if (i)
+	//if (i)
 		dup2(fd, STDIN_FILENO);
 }
 
@@ -65,16 +65,15 @@ void	my_close(t_pipex *pipex)
 	t_list	*tmp;
 	int		*i;
 	int		s;
+	int		status_open;
 
 	tmp = pipex->pid_lst;
+	status_open = pipex->status;
 	while (tmp)
 	{
 		i = tmp->content;
-		if (waitpid(*i, &s, 0) == 0)
-		{
-			if (pipex->status == 0)
-				pipex->status = s >> 8;
-		}
+		if (waitpid(*i, &s, 0) != -1 && status_open == 0)
+			pipex->status = s >> 8;
 		tmp = tmp->next;
 	}
 	if (g_sig_check)
