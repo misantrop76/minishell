@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_line_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mminet <mminet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ehay <ehay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:27:33 by mminet            #+#    #+#             */
-/*   Updated: 2024/05/21 01:55:20 by mminet           ###   ########.fr       */
+/*   Updated: 2024/05/21 13:11:20 by ehay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ void	is_stdin(t_pipex *pipex, int fd, int i)
 		}
 		tmp = tmp->next;
 	}
-	//if (i)
-		dup2(fd, STDIN_FILENO);
+	dup2(fd, STDIN_FILENO);
 }
 
 void	init_pipex(t_pipex *pipex, t_list **env, t_list **token_lst)
